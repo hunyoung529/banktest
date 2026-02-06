@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   description: "신한은행 모바일 뱅킹",
   manifest: "/manifest.json",
   icons: {
-    icon: "/icons/home/s-logo.png",
-    apple: "/icons/home/s-logo.png",
+    icon: "/bank-icon.png",
+    apple: "/bank-icon.png",
   },
 };
 
