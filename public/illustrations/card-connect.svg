@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240" viewBox="0 0 320 240" fill="none" role="img" aria-label="카드 연결 일러스트">
+  <rect width="320" height="240" fill="#FFFFFF"/>
+  <g opacity="0.95">
+    <path d="M223 54c6 3 9 10 6 16l-26 57c-3 6-10 9-16 6l-75-35c-6-3-9-10-6-16l26-57c3-6 10-9 16-6l75 35Z" fill="#F7D48B"/>
+    <path d="M214 60c4 2 6 7 4 11l-23 51c-2 4-7 6-11 4l-68-32c-4-2-6-7-4-11l23-51c2-4 7-6 11-4l68 32Z" stroke="#EBC56D"/>
+    <path d="M204 48l-18 38" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <g>
+    <path d="M87 74c8-9 23-7 28 4l17 37c3 6 0 13-6 16-18 8-44-8-50-25-2-6-1-12 11-32Z" fill="#E8A26A"/>
+    <path d="M94 86c6-6 16-5 20 2l10 22c2 4 0 9-4 10-12 6-30-6-34-17-2-5-1-9 8-17Z" fill="#F3C3A0"/>
+    <circle cx="110" cy="103" r="3" fill="#D84B3A"/>
+    <circle cx="101" cy="98" r="3" fill="#3DAA57"/>
+    <circle cx="114" cy="95" r="3" fill="#D84B3A"/>
+  </g>
+  <g>
+    <circle cx="176" cy="140" r="22" fill="#E9B867"/>
+    <path d="M158 140c5-9 15-15 26-15 6 0 12 2 17 6-3 15-17 26-32 26-5 0-9-1-11-2Z" fill="#D69C45"/>
+    <path d="M162 145c5 5 12 8 19 8 8 0 15-3 20-9" stroke="#9C6B2B" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g>
+    <path d="M264 152c8 2 13 10 10 18l-7 20c-1 4-6 7-10 6l-12-2c-4-1-7-6-6-10l3-21c1-7 8-13 22-11Z" fill="#F1C8B5"/>
+    <path d="M252 149l7 3" stroke="#D6A18F" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>
