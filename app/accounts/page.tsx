@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronLeft, MessageCircle, Mic, Home, Copy, RefreshCw, MoreVertical, LayoutGrid, PieChart, ShoppingBag, Gift, ChevronRight } from 'lucide-react';
+import { ChevronLeft, MessageCircle, Mic, Home, Copy, RefreshCw, MoreVertical, PieChart, ShoppingBag, Gift, ChevronRight, Menu } from 'lucide-react';
 import { ACCOUNTS, getComputedBalanceByAccountId, type AccountType } from '@/lib/account-data';
 
 type TopTab = '계좌' | '카드' | '머니포인트';
@@ -392,7 +392,10 @@ export default function AccountsPage() {
 
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-line py-2">
+      <nav
+        className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] border-t border-line py-2"
+        style={{ backgroundColor: 'rgb(245, 248, 253)' }}
+      >
         <div className="grid grid-cols-5 text-center text-xs">
           <Link href="/" className="flex flex-col items-center gap-0.5 text-text-secondary">
             <Home className="w-5 h-5" />
@@ -411,7 +414,7 @@ export default function AccountsPage() {
             <span>혜택</span>
           </Link>
           <Link href="/menu" className="flex flex-col items-center gap-0.5 text-text-secondary">
-            <LayoutGrid className="w-5 h-5" />
+            <Menu className="w-5 h-5" />
             <span>전체메뉴</span>
           </Link>
         </div>

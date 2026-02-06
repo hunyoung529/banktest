@@ -20,6 +20,39 @@ export interface Transaction {
   amount: number;
 }
 
+function toDateString(d: Date): string {
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}.${mm}.${dd}`;
+}
+
+function buildCheongyakDeposits(): Transaction[] {
+  const start = new Date(2022, 2, 25);
+  const end = new Date(2026, 0, 25);
+
+  const txs: Transaction[] = [];
+  const cursor = new Date(start);
+
+  while (cursor <= end) {
+    const idx = txs.length;
+    const amount = idx < 4 ? 20000 : 100000;
+    const date = toDateString(cursor);
+    txs.push({
+      id: `4-${date.replaceAll('.', '')}`,
+      date,
+      time: '09:05:00',
+      channel: '모바일',
+      recipient: '정훈영',
+      type: '입금',
+      amount,
+    });
+    cursor.setMonth(cursor.getMonth() + 1);
+  }
+
+  return txs.sort((a, b) => b.date.localeCompare(a.date));
+}
+
 const ADMIN_UNLOCKED_KEY = 'admin_unlocked';
 const TX_OVERRIDE_PREFIX = 'tx_override_';
 
@@ -53,14 +86,14 @@ export const ACCOUNTS: Account[] = [
     id: '4',
     name: '청년 주택드림 청약통장(근로소득자용)',
     number: '신한 223-108-233062',
-    balance: 4980000,
+    balance: 4380000,
     bank: '신한',
     type: '예적금',
   },
   {
     id: '5',
     name: '개인형 IRP',
-    number: '신한 223-120-345678',
+    number: '신한 223-120-345679',
     balance: 500000,
     bank: '신한',
     type: '예적금',
@@ -68,7 +101,7 @@ export const ACCOUNTS: Account[] = [
   {
     id: '6',
     name: '청년도약계좌',
-    number: '신한 223-130-456789',
+    number: '신한 223-121-987654',
     balance: 3500000,
     bank: '신한',
     type: '예적금',
@@ -86,23 +119,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   ],
   '2': [],
   '3': [],
-  '4': [
-    { id: '4-1', date: '2025.01.24', time: '12:39:37', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2', date: '2024.12.20', time: '16:12:53', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-3', date: '2024.11.15', time: '10:30:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2026-01', date: '2026.01.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-12', date: '2025.12.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-11', date: '2025.11.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-10', date: '2025.10.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-09', date: '2025.09.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-08', date: '2025.08.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-07', date: '2025.07.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-06', date: '2025.06.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-05', date: '2025.05.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-04', date: '2025.04.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-03', date: '2025.03.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-    { id: '4-2025-02', date: '2025.02.25', time: '09:05:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
-  ],
+  '4': buildCheongyakDeposits(),
   '5': [
     { id: '5-2025-09', date: '2025.09.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-2025-10', date: '2025.10.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },

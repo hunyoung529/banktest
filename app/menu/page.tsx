@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Home, LayoutGrid, PieChart, ShoppingBag, Gift, Search } from 'lucide-react';
+import { Home, PieChart, ShoppingBag, Gift, Search, Menu } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { isAdminUnlocked, setAdminUnlocked } from '@/lib/account-data';
@@ -191,7 +191,10 @@ export default function MenuPage() {
       </div>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] bg-white border-t border-line py-2">
+      <nav
+        className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] border-t border-line py-2"
+        style={{ backgroundColor: 'rgb(245, 248, 253)' }}
+      >
         <div className="grid grid-cols-5 text-center text-xs">
           <Link href="/" className="flex flex-col items-center gap-0.5 text-text-secondary">
             <Home className="w-5 h-5" />
@@ -210,7 +213,7 @@ export default function MenuPage() {
             <span>혜택</span>
           </button>
           <div className="flex flex-col items-center gap-0.5 text-brand">
-            <LayoutGrid className="w-5 h-5" />
+            <Menu className="w-5 h-5" />
             <span>전체메뉴</span>
           </div>
         </div>
