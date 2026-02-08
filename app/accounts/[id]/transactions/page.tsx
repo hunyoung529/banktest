@@ -3,7 +3,7 @@
 import { formatCurrency } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ChevronLeft, MessageCircle, BarChart3, Home, ChevronDown, PieChart, ShoppingBag, Gift, Menu } from 'lucide-react';
+import { ChevronLeft, MessageCircle, BarChart3, Home, ChevronDown, PieChart, ShoppingBag, Gift, Menu, Search } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { getAccountById, getComputedBalanceByAccountId, getTransactionsByAccountId, isAdminUnlocked, setTransactionsOverrideByAccountId, type Transaction } from '@/lib/account-data';
 import { useEffect, useMemo, useState } from 'react';
@@ -112,13 +112,13 @@ export default function TransactionsPage() {
       <div className="px-3 py-4 bg-[#D7ECFF]">
         <div className="flex items-start gap-3 mb-4">
           <div className="w-10 h-10 rounded-full overflow-hidden bg-white border border-line flex items-center justify-center shrink-0">
-            <Image
-              src="/icons/home/s-logo.png"
-              alt="신한"
-              width={40}
-              height={40}
-              className="object-contain"
-            />
+            {account.bank === '신한' ? (
+              <Image src="/icons/home/s-logo.png" alt="신한" width={40} height={40} className="object-contain" />
+            ) : account.bank === 'NH투자증권' ? (
+              <Image src="/icons/banks/nh.svg" alt="NH" width={40} height={40} className="object-contain" />
+            ) : (
+              <span className="text-xs font-bold text-text-secondary">{account.bank}</span>
+            )}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
@@ -155,43 +155,45 @@ export default function TransactionsPage() {
         </div>
       </div>
 
-      {/* 필터 - 최근(10건) / 잔액 토글 | 최근・전체・최신순 (첫 번째 이미지 순서) */}
-      <div className="bg-[#F7F9FC] border-b border-line">
-        <div className="px-3 py-3 bg-white">
-          <div className="flex items-center justify-end">
+      {/* 필터 - 검색 + 기간/정렬 + 조회기간/건수 + 잔액 토글 */}
+      <div className="bg-white border-b border-line">
+        <div className="px-3 py-3">
+          <div className="flex items-center justify-between">
+            <button type="button" className="p-0 text-text-secondary" aria-label="검색">
+              <Search className="w-5 h-5" />
+            </button>
             <button type="button" className="flex items-center gap-1 text-sm text-text-secondary">
-              최근・전체・최신순
+              1개월・전체・최신순
               <ChevronDown className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        <div className="px-3 py-3 bg-white">
+        <div className="px-3 pb-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-[rgb(122,134,153)]">최근(<span className="text-[rgb(25,118,243)]">10건</span>)</span>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                className="w-14 h-7 rounded-full relative"
-                style={{ backgroundColor: 'rgb(196, 204, 214)' }}
-                aria-label="잔액 표시 토글"
+            <span className="text-sm text-text-secondary">
+              2026.01.08~2026.02.08{' '}
+              <span className="text-brand font-medium">(100건 이상)</span>
+            </span>
+            <button
+              type="button"
+              className="w-14 h-7 rounded-full relative"
+              style={{ backgroundColor: 'rgb(196, 204, 214)' }}
+              aria-label="잔액 표시 토글"
+            >
+              <span
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] font-semibold"
+                style={{ color: 'rgb(255,255,255)' }}
               >
-                <span
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] font-semibold"
-                  style={{ color: 'rgb(255,255,255)' }}
-                >
-                  잔액
-                </span>
-                <span
-                  className="absolute left-0.5 top-0.5 w-6 h-6 bg-white rounded-full shadow"
-                />
-              </button>
-            </div>
+                잔액
+              </span>
+              <span className="absolute left-0.5 top-0.5 w-6 h-6 bg-white rounded-full shadow" />
+            </button>
           </div>
         </div>
       </div>
 
-      {/* 거래 목록 - 날짜 그룹, 입금(검은색) / 금액(빨간색) 통일 */}
+      {/* 거래 목록 - 날짜 그룹, 스샷 레이아웃(상단 메타: 시간 | 채널, 본문: 거래명, 우측: 출금/입금 + 금액) */}
       <div className="px-3 py-2 bg-white">
         {admin && (
           <div className="pb-2">
@@ -205,27 +207,27 @@ export default function TransactionsPage() {
           </div>
         )}
         {byDate.map(([date, list]) => (
-          <div key={date} className="mb-4">
-            <h3 className="text-sm font-medium text-text-secondary mb-2">{date}</h3>
+          <div key={date} className="mb-6">
+            <div className="pt-2 pb-2 border-b border-line">
+              <h3 className="text-sm font-semibold text-text-secondary">{date}</h3>
+            </div>
             {list.map((tx) => (
-              <div
-                key={tx.id}
-                className="py-4 border-b border-line last:border-b-0 flex justify-between items-start gap-3"
-              >
+              <div key={tx.id} className="py-4 border-b border-line last:border-b-0 flex justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="text-xs text-text-muted">{tx.time}</p>
-                  <p className="text-base font-semibold text-text-primary mt-1">{tx.channel}</p>
-                  <p className="text-sm text-text-secondary mt-0.5">{tx.recipient}</p>
+                  <p className="text-xs text-text-muted">
+                    {tx.time} <span className="mx-1">|</span> {tx.channel}
+                  </p>
+                  <p className="mt-1 text-[15px] font-semibold text-text-primary truncate">{tx.recipient}</p>
                 </div>
                 <div className="text-right shrink-0">
                   <p
-                    className={`text-sm font-semibold ${tx.type === '입금' ? 'text-neg' : 'text-brand'}`}
+                    className="text-xs font-semibold"
                     style={tx.type === '입금' ? { color: 'rgb(225, 29, 72)' } : { color: 'rgb(25,118,243)' }}
                   >
                     {tx.type}
                   </p>
                   <p
-                    className={`text-base font-bold mt-0.5 ${tx.type === '입금' ? 'text-neg' : 'text-brand'}`}
+                    className="mt-1 text-[18px] font-bold"
                     style={tx.type === '입금' ? { color: 'rgb(225, 29, 72)' } : { color: 'rgb(25,118,243)' }}
                   >
                     {formatCurrency(tx.amount)}

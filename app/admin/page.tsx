@@ -47,6 +47,11 @@ export default function AdminPage() {
   const accounts = useMemo(() => ACCOUNTS, []);
   const selectedAccount = useMemo(() => accounts.find((a) => a.id === selectedId), [accounts, selectedId]);
 
+  const channelOptions = useMemo(
+    () => ['모바일', '펌뱅킹 이체', '타행모바일뱅킹', '오픈뱅킹 이체', 'FB자동'],
+    []
+  );
+
   useEffect(() => {
     const ok = isAdminUnlocked();
     if (!ok) {
@@ -259,7 +264,17 @@ export default function AdminPage() {
               </Button>
             </div>
             <Input inputMode="numeric" value={form.amount} onChange={(e) => setForm((p) => ({ ...p, amount: e.target.value }))} placeholder="금액 (숫자만)" />
-            <Input value={form.channel} onChange={(e) => setForm((p) => ({ ...p, channel: e.target.value }))} placeholder="채널 (예: 모바일)" />
+            <select
+              value={form.channel}
+              onChange={(e) => setForm((p) => ({ ...p, channel: e.target.value }))}
+              className="w-full h-11 rounded-xl border border-line px-3 text-sm"
+            >
+              {channelOptions.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
             <Input value={form.recipient} onChange={(e) => setForm((p) => ({ ...p, recipient: e.target.value }))} placeholder="상대방" />
             <Button
               className="w-full h-11 rounded-xl text-sm font-semibold"
@@ -302,7 +317,17 @@ export default function AdminPage() {
               </Button>
             </div>
             <Input inputMode="numeric" value={form.amount} onChange={(e) => setForm((p) => ({ ...p, amount: e.target.value }))} placeholder="금액 (숫자만)" />
-            <Input value={form.channel} onChange={(e) => setForm((p) => ({ ...p, channel: e.target.value }))} placeholder="채널 (예: 모바일)" />
+            <select
+              value={form.channel}
+              onChange={(e) => setForm((p) => ({ ...p, channel: e.target.value }))}
+              className="w-full h-11 rounded-xl border border-line px-3 text-sm"
+            >
+              {channelOptions.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
             <Input value={form.recipient} onChange={(e) => setForm((p) => ({ ...p, recipient: e.target.value }))} placeholder="상대방" />
             <Button
               className="w-full h-11 rounded-xl text-sm font-semibold"

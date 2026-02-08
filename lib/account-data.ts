@@ -111,6 +111,7 @@ export const ACCOUNTS: Account[] = [
 /** 계좌별 거래내역 - 첫 번째 이미지 형식 통일 (날짜 그룹, 시간/모바일/상대방, 입금·금액) */
 export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   '1': [
+    { id: '1-2026-02-08-in', date: '2026.02.08', time: '09:32:53', channel: '타행모바일뱅킹', recipient: '전효빈', type: '입금', amount: 2000000 },
     { id: '1-2026-02-05-out', date: '2026.02.05', time: '19:50:35', channel: '모바일', recipient: '정훈영', type: '출금', amount: 10000 },
     { id: '1-1', date: '2025.01.24', time: '12:39:37', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '1-2', date: '2024.12.20', time: '16:12:53', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
