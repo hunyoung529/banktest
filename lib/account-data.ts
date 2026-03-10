@@ -111,6 +111,22 @@ export const ACCOUNTS: Account[] = [
 /** 계좌별 거래내역 - 첫 번째 이미지 형식 통일 (날짜 그룹, 시간/모바일/상대방, 입금·금액) */
 export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   '1': [
+    { id: '1-20260310-1', date: '2026.03.10', time: '18:30:12', channel: 'FB자동', recipient: '와이제이하우', type: '출금', amount: 44000 },
+    { id: '1-20260310-2', date: '2026.03.10', time: '18:29:33', channel: '이체', recipient: '라힘컴퍼니', type: '출금', amount: 296000 },
+    { id: '1-20260310-3', date: '2026.03.10', time: '18:01:05', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+    { id: '1-20260310-4', date: '2026.03.10', time: '17:58:35', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+    { id: '1-20260310-5', date: '2026.03.10', time: '17:56:01', channel: '모바일', recipient: '정훈영', type: '출금', amount: 700000 },
+    { id: '1-20260310-7', date: '2026.03.10', time: '16:57:46', channel: '오픈뱅킹', recipient: '신한오픈전효빈', type: '출금', amount: 250000 },
+    { id: '1-20260310-8', date: '2026.03.10', time: '15:37:33', channel: '지로', recipient: '한국토지주택공사', type: '출금', amount: 218715 },
+    { id: '1-20260310-10', date: '2026.03.10', time: '12:45:15', channel: '펌뱅킹 이체', recipient: '(주)탑앤스카우트', type: '입금', amount: 2030580 },
+    { id: '1-20260307-1', date: '2026.03.07', time: '17:29:08', channel: '펌뱅킹출금', recipient: '롯데 G-car', type: '출금', amount: 41940 },
+    { id: '1-20260307-2', date: '2026.03.07', time: '15:32:05', channel: 'ATM출금', recipient: 'ATM현금', type: '출금', amount: 100000 },
+    { id: '1-20260225-1', date: '2026.02.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '출금', amount: 700000 },
+    { id: '1-20260225-2', date: '2026.02.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+    { id: '1-20260225-3', date: '2026.02.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+    { id: '1-20260210-1', date: '2026.02.10', time: '18:30:12', channel: 'FB자동', recipient: '와이제이하우', type: '출금', amount: 44000 },
+    { id: '1-20260210-2', date: '2026.02.10', time: '18:29:33', channel: '이체', recipient: '라힘컴퍼니', type: '출금', amount: 296000 },
+    { id: '1-20260210-3', date: '2026.02.10', time: '15:37:33', channel: '지로', recipient: '한국토지주택공사', type: '출금', amount: 218715 },
     { id: '1-2026-02-08-in', date: '2026.02.08', time: '09:32:53', channel: '타행모바일뱅킹', recipient: '전효빈', type: '입금', amount: 2000000 },
     { id: '1-2026-02-05-out', date: '2026.02.05', time: '19:50:35', channel: '모바일', recipient: '정훈영', type: '출금', amount: 10000 },
     { id: '1-1', date: '2025.01.24', time: '12:39:37', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
@@ -120,8 +136,12 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   ],
   '2': [],
   '3': [],
-  '4': buildCheongyakDeposits(),
+  '4': [
+    { id: '4-20260310-1', date: '2026.03.10', time: '18:01:05', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
+    ...buildCheongyakDeposits(),
+  ],
   '5': [
+    { id: '5-20260310-1', date: '2026.03.10', time: '17:58:35', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-2025-09', date: '2025.09.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-2025-10', date: '2025.10.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-2025-11', date: '2025.11.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
@@ -129,6 +149,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     { id: '5-2026-01', date: '2026.01.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
   ],
   '6': [
+    { id: '6-20260310-1', date: '2026.03.10', time: '17:56:01', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     { id: '6-2026-01-700', date: '2026.01.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     { id: '6-2025-12-700', date: '2025.12.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     { id: '6-2025-11-700', date: '2025.11.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
