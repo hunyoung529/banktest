@@ -135,6 +135,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     { id: '1-4', date: '2024.10.10', time: '09:12:10', channel: '모바일', recipient: '정훈영', type: '입금', amount: 50000 },
   ],
   '2': [
+    /*
     { id: '2-w-ybj-1', date: '2026.04.04', time: '16:15:13', channel: '모바일', recipient: '여병준', type: '출금', amount: 10128800 },
     { id: '2-w-jhy-1', date: '2026.04.02', time: '13:10:05', channel: '오픈뱅킹 이체', recipient: '정훈영', type: '입금', amount: 3000000 },
     { id: '2-w-jhy-6', date: '2026.04.02', time: '12:12:15', channel: '펌뱅킹 이체', recipient: '쿠팡이츠', type: '출금', amount: 22000 },
@@ -273,6 +274,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     { id: '2-cp-52', date: '2025.11.02', time: '17:29:19', channel: '펌뱅킹 이체', recipient: '쿠팡이츠', type: '출금', amount: 29000 },
     { id: '2-w-hkc-4', date: '2025.11.01', time: '10:15:00', channel: 'CMS지급', recipient: '한국캐피탈(주)', type: '출금', amount: 883200 },
     { id: '2-w-lh-4', date: '2025.11.01', time: '10:00:00', channel: '지로', recipient: '한국토지주택공사', type: '출금', amount: 467800 },
+    */
   ],
   '3': [],
   '4': [
