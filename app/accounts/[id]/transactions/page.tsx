@@ -163,7 +163,7 @@ export default function TransactionsPage() {
               <Search className="w-5 h-5" />
             </button>
             <button type="button" className="flex items-center gap-1 text-sm text-text-secondary">
-              1개월・전체・최신순
+              3개월・전체・최신순
               <ChevronDown className="w-4 h-4" />
             </button>
           </div>
@@ -172,8 +172,8 @@ export default function TransactionsPage() {
         <div className="px-3 pb-3">
           <div className="flex items-center justify-between">
             <span className="text-sm text-text-secondary">
-              2026.01.08~2026.02.08{' '}
-              <span className="text-brand font-medium">(100건 이상)</span>
+              2026.01.07~2026.04.07{' '}
+              <span className="text-blue-600 font-medium">(100건 이상)</span>
             </span>
             <button
               type="button"
