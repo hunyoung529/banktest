@@ -79,12 +79,14 @@ export default function AccountManagePage() {
   }, [account, baseInfo?.joinDate]);
 
   const manageItems = useMemo(() => {
-    const items = ['상품설명', '통장사본보기', '계좌별명 설정', '바로가기 등록', '예금담보대출'];
+    const items = ['상품설명', '통장사본보기', '계좌별명 설정', '바로가기 등록'];
     if (account?.id === '4') {
-      items.push('소득공제신청/해제(청약계좌)', '청약납입증명서발급');
+      items.push('소득공제신청/해제(청약계좌)', '청약납입증명서발급', '청약담보대출');
+    } else if (account?.type === '예적금') {
+      items.push('예금담보대출');
     }
     return items;
-  }, [account?.id]);
+  }, [account?.id, account?.type]);
 
   function renderSectionContent(title: string) {
     if (title === '청약 정보') {
@@ -176,7 +178,7 @@ export default function AccountManagePage() {
           <div className="space-y-4">
             {manageItems.map((label) => {
               const handleClick = () => {
-                if (label === '예금담보대출') {
+                if (label === '예금담보대출' || label === '청약담보대출') {
                   setShowLoanModal(true);
                 }
               };
