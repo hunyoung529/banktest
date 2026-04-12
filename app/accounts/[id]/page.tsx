@@ -12,6 +12,7 @@ import { formatCurrency } from '@/lib/format';
 export default function AccountManagePage() {
   const params = useParams();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [showLoanModal, setShowLoanModal] = useState(false);
 
   const accountId = typeof params.id === 'string' ? params.id : params.id?.[0];
   const account = useMemo(() => (accountId ? getAccountById(accountId) : undefined), [accountId]);
@@ -78,7 +79,7 @@ export default function AccountManagePage() {
   }, [account, baseInfo?.joinDate]);
 
   const manageItems = useMemo(() => {
-    const items = ['상품설명', '통장사본보기', '계좌별명 설정', '바로가기 등록'];
+    const items = ['상품설명', '통장사본보기', '계좌별명 설정', '바로가기 등록', '예금담보대출'];
     if (account?.id === '4') {
       items.push('소득공제신청/해제(청약계좌)', '청약납입증명서발급');
     }
@@ -173,12 +174,24 @@ export default function AccountManagePage() {
       return (
         <div className="mt-3 pb-2">
           <div className="space-y-4">
-            {manageItems.map((label) => (
-              <div key={label} className="flex items-center justify-between text-sm">
-                <span className="text-text-primary font-medium">{label}</span>
-                <span className="text-text-secondary">&gt;</span>
-              </div>
-            ))}
+            {manageItems.map((label) => {
+              const handleClick = () => {
+                if (label === '예금담보대출') {
+                  setShowLoanModal(true);
+                }
+              };
+
+              return (
+                <div 
+                  key={label} 
+                  className="flex items-center justify-between text-sm cursor-pointer"
+                  onClick={handleClick}
+                >
+                  <span className="text-text-primary font-medium">{label}</span>
+                  <span className="text-text-secondary">&gt;</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       );
@@ -324,6 +337,25 @@ export default function AccountManagePage() {
           </Link>
         </div>
       </nav>
+
+      {/* Loan Modal */}
+      {showLoanModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="bg-white rounded-xl w-[80%] max-w-[320px] shadow-lg animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-6 text-center">
+              <p className="text-sm font-medium text-text-primary mb-6 whitespace-pre-wrap leading-relaxed">
+                비대면 대출 불가상품{'\n'}영업점 방문 바랍니다.
+              </p>
+              <Button 
+                className="w-full bg-[#1b64da] hover:bg-[#1b64da]/90 text-white font-semibold py-6 rounded-lg text-base" 
+                onClick={() => setShowLoanModal(false)}
+              >
+                확인
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
