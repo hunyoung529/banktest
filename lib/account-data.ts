@@ -111,6 +111,16 @@ export const ACCOUNTS: Account[] = [
 /** 계좌별 거래내역 - 첫 번째 이미지 형식 통일 (날짜 그룹, 시간/모바일/상대방, 입금·금액) */
 export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   '1': [
+    { id: '1-20260510-2', date: '2026.05.10', time: '13:50:22', channel: '이체', recipient: '라힘컴퍼니', type: '출금', amount: 296000 },
+    { id: '1-20260510-5', date: '2026.05.10', time: '13:35:10', channel: '모바일', recipient: '정훈영', type: '출금', amount: 700000 },
+    { id: '1-20260510-7', date: '2026.05.10', time: '13:34:10', channel: '오픈뱅킹', recipient: '신한오픈전효빈', type: '출금', amount: 200000 },
+    { id: '1-20260510-1', date: '2026.05.10', time: '13:15:05', channel: 'FB자동', recipient: '와이제이하우', type: '출금', amount: 44000 },
+    { id: '1-20260510-8', date: '2026.05.10', time: '12:55:40', channel: '지로', recipient: '한국토지주택공사', type: '출금', amount: 218715 },
+    { id: '1-20260510-12', date: '2026.05.10', time: '12:12:00', channel: '자동이체', recipient: '통신SKB6527845508', type: '출금', amount: 55000 },
+    { id: '1-20260510-4', date: '2026.05.10', time: '11:50:30', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+    { id: '1-20260510-3', date: '2026.05.10', time: '11:25:45', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+    { id: '1-20260510-11', date: '2026.05.10', time: '11:05:20', channel: 'CMS지급', recipient: 'SK인텔릭스요금', type: '출금', amount: 17000 },
+    { id: '1-20260510-10', date: '2026.05.10', time: '09:02:35', channel: '펌뱅킹 이체', recipient: '(주)탑앤스카우트', type: '입금', amount: 2030580 },
     { id: '1-20260410-11', date: '2026.04.10', time: '19:08:44', channel: 'CMS지급', recipient: 'SK인텔릭스요금', type: '출금', amount: 17000 },
     { id: '1-20260410-1', date: '2026.04.10', time: '18:30:12', channel: 'FB자동', recipient: '와이제이하우', type: '출금', amount: 44000 },
     { id: '1-20260410-2', date: '2026.04.10', time: '18:29:33', channel: '이체', recipient: '라힘컴퍼니', type: '출금', amount: 296000 },
@@ -129,6 +139,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     { id: '1-20260310-7', date: '2026.03.10', time: '16:57:46', channel: '오픈뱅킹', recipient: '신한오픈전효빈', type: '출금', amount: 250000 },
     { id: '1-20260310-8', date: '2026.03.10', time: '15:37:33', channel: '지로', recipient: '한국토지주택공사', type: '출금', amount: 218715 },
     { id: '1-20260310-10', date: '2026.03.10', time: '12:45:15', channel: '펌뱅킹 이체', recipient: '(주)탑앤스카우트', type: '입금', amount: 2030580 },
+    { id: '1-20260308-1', date: '2026.03.08', time: '18:15:30', channel: 'ATM출금', recipient: 'ATM현금', type: '출금', amount: 300000 },
     { id: '1-20260307-1', date: '2026.03.07', time: '17:29:08', channel: '펌뱅킹출금', recipient: '롯데 G-car', type: '출금', amount: 41940 },
     { id: '1-20260307-2', date: '2026.03.07', time: '15:32:05', channel: 'ATM출금', recipient: 'ATM현금', type: '출금', amount: 100000 },
     { id: '1-20260225-1', date: '2026.02.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '출금', amount: 700000 },
@@ -289,11 +300,13 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   ],
   '3': [],
   '4': [
+    { id: '4-20260510-1', date: '2026.05.10', time: '11:25:45', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '4-20260310-6', date: '2026.04.10', time: '18:01:05', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '4-20260310-1', date: '2026.03.10', time: '18:01:05', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     ...buildCheongyakDeposits(),
   ],
   '5': [
+    { id: '5-20260510-1', date: '2026.05.10', time: '11:50:30', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-20260310-5', date: '2026.04.10', time: '17:58:35', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-20260310-1', date: '2026.03.10', time: '17:58:35', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-2025-09', date: '2025.09.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
@@ -303,6 +316,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     { id: '5-2026-01', date: '2026.01.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
   ],
   '6': [
+    { id: '6-20260510-1', date: '2026.05.10', time: '13:35:10', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     { id: '6-20260310-22', date: '2026.04.10', time: '17:56:01', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     { id: '6-20260310-1', date: '2026.03.10', time: '17:56:01', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     { id: '6-2026-01-700', date: '2026.01.25', time: '09:00:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
