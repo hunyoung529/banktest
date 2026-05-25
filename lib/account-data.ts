@@ -158,15 +158,6 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   // ],
   "1": [
     {
-      id: "2-cp-26-01",
-      date: "2026.05.25",
-      time: "20:17:12",
-      channel: "펌뱅킹 이체",
-      recipient: "쿠팡이츠",
-      type: "출금",
-      amount: 25000,
-    },
-    {
       id: "2-w-dg-1",
       date: "2026.05.25",
       time: "16:10:01",

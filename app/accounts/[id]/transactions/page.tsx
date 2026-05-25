@@ -172,7 +172,7 @@ export default function TransactionsPage() {
         <div className="px-3 pb-3">
           <div className="flex items-center justify-between">
             <span className="text-sm text-text-secondary">
-              2026.01.07~2026.04.07{' '}
+              2026.02.07~2026.05.27{' '}
               <span className="text-blue-600 font-medium">(100건 이상)</span>
             </span>
             <button
