@@ -18,6 +18,7 @@ export interface Transaction {
   recipient: string;
   type: "입금" | "출금";
   amount: number;
+  memo?: string;
 }
 
 function toDateString(d: Date): string {
