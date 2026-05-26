@@ -549,7 +549,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       date: "2026.05.08",
       time: "13:12:12",
       channel: "모바일",
-      recipient: "김해나",
+      recipient: "정해나",
       type: "입금",
       amount: 5000000,
     },
