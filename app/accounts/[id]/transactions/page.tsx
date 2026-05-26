@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft, MessageCircle, BarChart3, Home, ChevronDown, PieChart, ShoppingBag, Gift, Menu, Search, Check, X, Pencil, MessageSquare, Mail, Copy, Smile } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { getAccountById, getComputedBalanceByAccountId, getTransactionsByAccountId, isAdminUnlocked, setTransactionsOverrideByAccountId, type Transaction } from '@/lib/account-data';
+import { getAccountById, getComputedBalanceByAccountId, getTransactionsByAccountId, isAdminUnlocked, setTransactionsOverrideByAccountId, clearTransactionsOverrideByAccountId, TRANSACTIONS_BY_ACCOUNT, type Transaction } from '@/lib/account-data';
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -28,27 +28,37 @@ export default function TransactionsPage() {
   const [memoValue, setMemoValue] = useState<string>('');
 
   const txBalances = useMemo(() => {
-    // 과거 순 (시간 오름차순) 정렬
-    const sorted = [...transactions].sort((a, b) => {
-      const dateComp = a.date.localeCompare(b.date);
-      if (dateComp !== 0) return dateComp;
-      return a.time.localeCompare(b.time);
-    });
-
-    let currentBalance = 0;
     const balanceMap: Record<string, number> = {};
+    if (transactions.length === 0) return balanceMap;
 
-    for (const tx of sorted) {
-      if (tx.type === '입금') {
-        currentBalance += tx.amount;
+    const base = account?.baseBalance ?? 0;
+    let currentBalance = base;
+
+    // transactions 배열의 역순(가장 뒤에 있는 원소가 가장 과거 거래)으로 잔액을 누적 계산하되,
+    // 사용자가 명시적으로 지정한 거래 후 잔액들을 정확한 고정값으로 세팅하고 연동합니다.
+    for (let i = transactions.length - 1; i >= 0; i--) {
+      const tx = transactions[i];
+
+      if (tx.id === '1-20260526-160145') {
+        currentBalance = 5002011;
+      } else if (tx.id === '2-w-dg-1') {
+        currentBalance = 2010773;
+      } else if (tx.id === '2-w-dg-2') {
+        currentBalance = 3210773;
+      } else if (tx.id === '2-w-dg-3') {
+        currentBalance = 5010773;
       } else {
-        currentBalance -= tx.amount;
+        if (tx.type === '입금') {
+          currentBalance += tx.amount;
+        } else {
+          currentBalance -= tx.amount;
+        }
       }
       balanceMap[tx.id] = currentBalance;
     }
 
     return balanceMap;
-  }, [transactions]);
+  }, [transactions, account]);
 
   const handleSaveMemo = (newMemoValue: string) => {
     if (!selectedTx) return;
@@ -80,7 +90,7 @@ export default function TransactionsPage() {
 상대방: ${selectedTx.recipient}
 거래일시: ${selectedTx.date} ${selectedTx.time}
 거래구분: ${getChannelDisplayName(selectedTx.channel)}
-거래금액: ${selectedTx.type === '입금' ? '+' : '-'}${formatCurrency(selectedTx.amount)}
+거래금액: ${formatCurrency(selectedTx.amount)}
 거래 후 잔액: ${balance}
 메모: ${selectedTx.memo || '없음'}`;
 
@@ -98,7 +108,24 @@ export default function TransactionsPage() {
   }, []);
 
   useEffect(() => {
-    setTransactions(accountId ? getTransactionsByAccountId(accountId) : []);
+    if (accountId) {
+      // localStorage에 캐시된 데이터가 있고, 정적 데이터의 개수와 다르다면 캐시를 날려서 동기화해줍니다.
+      const cachedRaw = typeof window !== 'undefined' ? window.localStorage.getItem(`tx_override_${accountId}`) : null;
+      if (cachedRaw) {
+        try {
+          const cached = JSON.parse(cachedRaw);
+          const staticTxs = TRANSACTIONS_BY_ACCOUNT[accountId] || [];
+          if (Array.isArray(cached) && cached.length !== staticTxs.length) {
+            clearTransactionsOverrideByAccountId(accountId);
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+      setTransactions(getTransactionsByAccountId(accountId));
+    } else {
+      setTransactions([]);
+    }
   }, [accountId]);
 
   const filteredTransactions = useMemo(() => {
@@ -413,21 +440,21 @@ export default function TransactionsPage() {
 
       {/* Bottom Sheet Filter Popup */}
       {filterOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-[1px]"
           onClick={() => setFilterOpen(false)}
         >
-          <div 
+          <div
             className="bg-white w-full max-w-[430px] rounded-t-[24px] px-6 pt-4 pb-8 shadow-2xl animate-in slide-in-from-bottom duration-300 ease-out"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Grab Handle */}
             <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-6" />
-            
+
             <h3 className="text-lg font-bold text-text-primary mb-5 text-center">
               조회 조건 선택
             </h3>
-            
+
             <div className="space-y-2">
               {[
                 { type: '전체', label: '전체 내역' },
@@ -456,7 +483,7 @@ export default function TransactionsPage() {
                 );
               })}
             </div>
-            
+
             <Button
               className="w-full mt-6 py-4 h-auto rounded-2xl text-sm font-semibold text-text-secondary bg-gray-100 hover:bg-gray-200"
               onClick={() => setFilterOpen(false)}
@@ -469,7 +496,7 @@ export default function TransactionsPage() {
 
       {/* 상세 보기 오버레이 */}
       {selectedTx && (
-        <div className="absolute inset-0 bg-white z-50 flex flex-col h-full overflow-hidden animate-in slide-in-from-right duration-300">
+        <div className="fixed inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-white z-50 flex flex-col h-screen overflow-hidden animate-in slide-in-from-right duration-300 shadow-2xl">
           {/* 헤더 */}
           <div className="flex items-center justify-between px-6 pt-6 pb-2 shrink-0">
             <h2 className="text-xl font-bold text-gray-900">거래내역상세</h2>
@@ -482,8 +509,8 @@ export default function TransactionsPage() {
             </button>
           </div>
 
-          {/* 본문 내용 (스크롤 없이 최적 비율 배치) */}
-          <div className="flex-1 flex flex-col pt-4 pb-6 justify-between overflow-hidden">
+          {/* 본문 내용 (비율 고정 단일 뷰포트 배치) */}
+          <div className="flex-1 flex flex-col pt-4 overflow-hidden">
             <div>
               {/* 상대방 이름 */}
               <div className="px-6 pb-2 text-left shrink-0">
@@ -536,7 +563,7 @@ export default function TransactionsPage() {
                     className="font-bold text-[15px] tracking-tight"
                     style={selectedTx.type === '입금' ? { color: '#EF4444' } : { color: '#0070ED' }}
                   >
-                    {selectedTx.type === '입금' ? '' : '-'}{formatCurrency(selectedTx.amount)}
+                    {formatCurrency(selectedTx.amount)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -558,8 +585,8 @@ export default function TransactionsPage() {
               </div>
             </div>
 
-            {/* 하단 영역 (아이콘 행 + 확인 버튼) - mt-auto와 일관된 gap으로 완벽한 공간 비율 창출 */}
-            <div className="flex flex-col gap-10 mt-auto shrink-0">
+            {/* 하단 영역 (아이콘 행 + 확인 버튼) - mt-auto와 좁혀진 마진으로 원본과 비율 통일 */}
+            <div className="mt-auto shrink-0 flex flex-col pb-8">
               {/* 하단 아이콘 행 */}
               <div className="mx-6">
                 <div className="flex justify-around items-center">
@@ -611,7 +638,7 @@ export default function TransactionsPage() {
               </div>
 
               {/* 최하단 확인 버튼 */}
-              <div className="px-6 pb-6 pt-2">
+              <div className="px-6 mt-5">
                 <Button
                   onClick={() => setSelectedTx(null)}
                   className="w-full bg-[#0070ED] hover:bg-[#005CC7] text-white py-4.5 h-auto rounded-[16px] font-bold text-[17px] transition-colors shadow-sm"

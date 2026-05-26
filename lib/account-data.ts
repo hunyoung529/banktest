@@ -8,6 +8,7 @@ export interface Account {
   balance: number;
   bank: string;
   type: AccountType;
+  baseBalance?: number;
 }
 
 export interface Transaction {
@@ -66,6 +67,7 @@ export const ACCOUNTS: Account[] = [
     balance: 0,
     bank: "신한",
     type: "입출금",
+    baseBalance: 25000000,
   },
   {
     id: "2",
@@ -74,6 +76,7 @@ export const ACCOUNTS: Account[] = [
     balance: 0,
     bank: "신한",
     type: "입출금",
+    baseBalance: 30000000,
   },
   {
     id: "3",
@@ -82,6 +85,7 @@ export const ACCOUNTS: Account[] = [
     balance: 0,
     bank: "NH투자증권",
     type: "입출금",
+    baseBalance: 1000000,
   },
   {
     id: "4",
@@ -159,6 +163,132 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   // ],
   "1": [
     {
+      id: "1-20260526-160145",
+      date: "2026.05.26",
+      time: "16:01:45",
+      channel: "타행모바일뱅킹",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 5000000,
+    },
+    {
+      id: "1-20260511-103928",
+      date: "2026.05.11",
+      time: "10:39:28",
+      channel: "모바일",
+      recipient: "김주현",
+      type: "출금",
+      amount: 2800000,
+    },
+    {
+      id: "1-20260511-103759",
+      date: "2026.05.11",
+      time: "10:37:59",
+      channel: "모바일",
+      recipient: "김주현",
+      type: "출금",
+      amount: 2000000,
+    },
+    {
+      id: "1-20260511-103408",
+      date: "2026.05.11",
+      time: "10:34:08",
+      channel: "모바일",
+      recipient: "김동규",
+      type: "출금",
+      amount: 1850000,
+    },
+    {
+      id: "1-20260511-075853",
+      date: "2026.05.11",
+      time: "07:58:53",
+      channel: "모바일",
+      recipient: "정영상",
+      type: "입금",
+      amount: 10000000,
+    },
+    {
+      id: "1-20260511-154401",
+      date: "2026.05.11",
+      time: "15:44:01",
+      channel: "모바일",
+      recipient: "김동규",
+      type: "출금",
+      amount: 1700000,
+    },
+    {
+      id: "1-20260508-234315",
+      date: "2026.05.08",
+      time: "23:43:15",
+      channel: "모바일",
+      recipient: "정영상",
+      type: "입금",
+      amount: 5000000,
+    },
+    {
+      id: "1-20260429-161116",
+      date: "2026.04.29",
+      time: "16:11:16",
+      channel: "모바일",
+      recipient: "김동규",
+      type: "출금",
+      amount: 1850000,
+    },
+    {
+      id: "1-20260429-155910",
+      date: "2026.04.29",
+      time: "15:59:10",
+      channel: "모바일",
+      recipient: "김동규",
+      type: "출금",
+      amount: 1950000,
+    },
+    {
+      id: "1-20260429-155720",
+      date: "2026.04.29",
+      time: "15:57:20",
+      channel: "모바일",
+      recipient: "우창효",
+      type: "출금",
+      amount: 3800000,
+    },
+    {
+      id: "1-20260417-154401",
+      date: "2026.04.17",
+      time: "15:44:01",
+      channel: "모바일",
+      recipient: "김동규",
+      type: "출금",
+      amount: 1300000,
+    },
+    {
+      id: "1-20260417-153246",
+      date: "2026.04.17",
+      time: "15:32:46",
+      channel: "모바일",
+      recipient: "김동규",
+      type: "출금",
+      amount: 1700000,
+    },
+    {
+      id: "1-20260413-105730",
+      date: "2026.04.13",
+      time: "10:57:30",
+      channel: "모바일",
+      recipient: "배봉기",
+      type: "출금",
+      amount: 2800000,
+    },
+    {
+      id: "1-20260410-160825",
+      date: "2026.04.10",
+      time: "16:08:25",
+      channel: "모바일",
+      recipient: "정홍석",
+      type: "출금",
+      amount: 2800000,
+    },
+    {
       id: "2-w-dg-1",
       date: "2026.05.25",
       time: "16:10:01",
@@ -174,7 +304,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       channel: "모바일",
       recipient: "김동규",
       type: "출금",
-      amount: 1200000,
+      amount: 1800000,
     },
     {
       id: "2-w-dg-3",
@@ -183,7 +313,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       channel: "모바일",
       recipient: "김동규",
       type: "출금",
-      amount: 1200000,
+      amount: 2300000,
     },
     {
       id: "2-w-jy-6",
@@ -1679,6 +1809,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       type: "출금",
       amount: 19100,
     },
+
     {
       id: "2-w-jy-4",
       date: "2025.11.25",
@@ -1904,6 +2035,15 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       type: "출금",
       amount: 467800,
     },
+    {
+      id: "2-20251031-080815",
+      date: "2025.10.31",
+      time: "08:08:15",
+      channel: "모바일",
+      recipient: "정경철",
+      type: "입금",
+      amount: 5000000,
+    },
   ],
   "3": [],
   "4": [
@@ -2116,18 +2256,19 @@ export function getComputedBalanceByAccountId(accountId: string): number {
   if (!account) return 0;
 
   const txs = getTransactionsByAccountId(accountId);
+  const base = account.baseBalance ?? 0;
 
   if (account.type === "입출금") {
     return txs.reduce(
       (sum, tx) => sum + (tx.type === "입금" ? tx.amount : -tx.amount),
-      0,
+      base,
     );
   }
 
   if (txs.length > 0) {
     return txs.reduce(
       (sum, tx) => sum + (tx.type === "입금" ? tx.amount : -tx.amount),
-      0,
+      base,
     );
   }
 
