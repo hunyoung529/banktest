@@ -3,7 +3,7 @@
 import { formatCurrency } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ChevronLeft, MessageCircle, BarChart3, Home, ChevronDown, PieChart, ShoppingBag, Gift, Menu, Search } from 'lucide-react';
+import { ChevronLeft, MessageCircle, BarChart3, Home, ChevronDown, PieChart, ShoppingBag, Gift, Menu, Search, Check } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { getAccountById, getComputedBalanceByAccountId, getTransactionsByAccountId, isAdminUnlocked, setTransactionsOverrideByAccountId, type Transaction } from '@/lib/account-data';
 import { useEffect, useMemo, useState } from 'react';
@@ -21,6 +21,9 @@ export default function TransactionsPage() {
   const [addOpen, setAddOpen] = useState(false);
   const [form, setForm] = useState({ date: '', time: '', channel: '모바일', recipient: '', type: '출금' as Transaction['type'], amount: '' });
 
+  const [filterType, setFilterType] = useState<'전체' | '입금' | '출금'>('전체');
+  const [filterOpen, setFilterOpen] = useState(false);
+
   useEffect(() => {
     setAdmin(isAdminUnlocked());
   }, []);
@@ -29,15 +32,20 @@ export default function TransactionsPage() {
     setTransactions(accountId ? getTransactionsByAccountId(accountId) : []);
   }, [accountId]);
 
+  const filteredTransactions = useMemo(() => {
+    if (filterType === '전체') return transactions;
+    return transactions.filter((tx) => tx.type === filterType);
+  }, [transactions, filterType]);
+
   /** 날짜별 그룹 (첫 번째 이미지 형식) */
   const byDate = useMemo(() => {
     const map: Record<string, typeof transactions> = {};
-    for (const tx of transactions) {
+    for (const tx of filteredTransactions) {
       if (!map[tx.date]) map[tx.date] = [];
       map[tx.date].push(tx);
     }
     return Object.entries(map).sort(([a], [b]) => b.localeCompare(a));
-  }, [transactions]);
+  }, [filteredTransactions]);
 
   function persist(next: Transaction[]) {
     if (!accountId) return;
@@ -82,7 +90,7 @@ export default function TransactionsPage() {
   }
 
   return (
-    <div className="min-h-screen max-w-[430px] mx-auto relative pb-20 bg-white">
+    <div className="min-h-screen max-w-[430px] mx-auto relative pb-6 bg-white">
       {/* Header */}
       <div className="flex items-center justify-between px-3 py-3 bg-white border-b border-line">
         <div className="flex items-center gap-2">
@@ -144,14 +152,13 @@ export default function TransactionsPage() {
           >
             입금
           </Button>
-          <Link href={`/accounts/${accountId}`} className="flex-1">
-            <Button
-              className="w-full rounded-xl py-3 h-auto text-sm font-semibold"
-              style={{ backgroundColor: 'rgb(154, 205, 255)', color: 'rgb(14, 16, 20)' }}
-            >
-              계좌관리
-            </Button>
-          </Link>
+          <Button
+            className="flex-1 rounded-xl py-3 h-auto text-sm font-semibold"
+            style={{ backgroundColor: 'rgb(154, 205, 255)', color: 'rgb(14, 16, 20)' }}
+            onClick={() => setFilterOpen(true)}
+          >
+            계좌관리
+          </Button>
         </div>
       </div>
 
@@ -172,7 +179,7 @@ export default function TransactionsPage() {
         <div className="px-3 pb-3">
           <div className="flex items-center justify-between">
             <span className="text-sm text-text-secondary">
-              2026.02.07~2026.05.27{' '}
+              2026.02.26~ 2026.05.26{' '}
               <span className="text-blue-600 font-medium">(100건 이상)</span>
             </span>
             <button
@@ -254,35 +261,6 @@ export default function TransactionsPage() {
         )}
       </div>
 
-      {/* Bottom Navigation */}
-      <nav
-        className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] border-t border-line py-2"
-        style={{ backgroundColor: 'rgb(245, 248, 253)' }}
-      >
-        <div className="grid grid-cols-5 text-center text-xs">
-          <Link href="/" className="flex flex-col items-center gap-0.5 text-text-secondary">
-            <Home className="w-5 h-5" />
-            <span>홈</span>
-          </Link>
-          <Link href="/accounts" className="flex flex-col items-center gap-0.5 text-brand">
-            <PieChart className="w-5 h-5" />
-            <span>자산관리</span>
-          </Link>
-          <Link href="#" className="flex flex-col items-center gap-0.5 text-text-secondary">
-            <ShoppingBag className="w-5 h-5" />
-            <span>상품</span>
-          </Link>
-          <Link href="#" className="flex flex-col items-center gap-0.5 text-text-secondary">
-            <Gift className="w-5 h-5" />
-            <span>혜택</span>
-          </Link>
-          <Link href="/menu" className="flex flex-col items-center gap-0.5 text-text-secondary">
-            <Menu className="w-5 h-5" />
-            <span>전체메뉴</span>
-          </Link>
-        </div>
-      </nav>
-
       <Dialog open={addOpen} onOpenChange={setAddOpen}>
         <DialogContent className="rounded-2xl" showCloseButton={false}>
           <DialogHeader>
@@ -350,6 +328,62 @@ export default function TransactionsPage() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Bottom Sheet Filter Popup */}
+      {filterOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-[1px]"
+          onClick={() => setFilterOpen(false)}
+        >
+          <div 
+            className="bg-white w-full max-w-[430px] rounded-t-[24px] px-6 pt-4 pb-8 shadow-2xl animate-in slide-in-from-bottom duration-300 ease-out"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Grab Handle */}
+            <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-6" />
+            
+            <h3 className="text-lg font-bold text-text-primary mb-5 text-center">
+              조회 조건 선택
+            </h3>
+            
+            <div className="space-y-2">
+              {[
+                { type: '전체', label: '전체 내역' },
+                { type: '입금', label: '입금 내역만' },
+                { type: '출금', label: '출금 내역만' }
+              ].map((item) => {
+                const isSelected = filterType === item.type;
+                return (
+                  <button
+                    key={item.type}
+                    type="button"
+                    className="w-full flex items-center justify-between py-4 px-5 rounded-2xl text-[15px] font-semibold transition-all duration-200"
+                    style={
+                      isSelected
+                        ? { backgroundColor: 'rgb(215, 236, 255)', color: 'rgb(25, 118, 243)' }
+                        : { backgroundColor: 'rgb(248, 249, 253)', color: 'rgb(75, 85, 99)' }
+                    }
+                    onClick={() => {
+                      setFilterType(item.type as any);
+                      setFilterOpen(false);
+                    }}
+                  >
+                    <span>{item.label}</span>
+                    {isSelected && <Check className="w-5 h-5 text-brand" />}
+                  </button>
+                );
+              })}
+            </div>
+            
+            <Button
+              className="w-full mt-6 py-4 h-auto rounded-2xl text-sm font-semibold text-text-secondary bg-gray-100 hover:bg-gray-200"
+              onClick={() => setFilterOpen(false)}
+            >
+              닫기
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
