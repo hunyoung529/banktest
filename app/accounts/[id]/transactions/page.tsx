@@ -41,12 +41,59 @@ export default function TransactionsPage() {
 
       if (tx.id === '1-20260526-160145') {
         currentBalance = 5002011;
+      } else if (tx.id === '1-20260526-151306') {
+        currentBalance = 2011;
+      } else if (tx.id === '1-20260526-151241') {
+        currentBalance = 2002011;
+      } else if (tx.id === '1-20260526-151216') {
+        currentBalance = 3802011;
+      } else if (tx.id === '1-20260511-103408') {
+        currentBalance = 20058000;
+      } else if (tx.id === '1-20260511-103759') {
+        currentBalance = 18058000;
+      } else if (tx.id === '1-20260511-103928') {
+        currentBalance = 15258000;
+      } else if (tx.id === '1-20260511-113917') {
+        currentBalance = 18558000;
+      } else if (tx.id === '1-20260429-161116') {
+        currentBalance = 4153990;
+      } else if (tx.id === '1-20260429-155910') {
+        currentBalance = 6003990;
+      } else if (tx.id === '1-20260429-155720') {
+        currentBalance = 7953990;
+      } else if (tx.id === '1-20260417-154401') {
+        currentBalance = 2009948;
+      } else if (tx.id === '1-20260417-153246') {
+        currentBalance = 3309948;
+      } else if (tx.id === '1-20260413-105730') {
+        currentBalance = 3686637;
+      } else if (tx.id === '1-20260410-160825') {
+        currentBalance = 2205889;
       } else if (tx.id === '2-w-dg-1') {
-        currentBalance = 2010773;
+        currentBalance = 610773;
       } else if (tx.id === '2-w-dg-2') {
-        currentBalance = 3210773;
+        currentBalance = 1210773;
       } else if (tx.id === '2-w-dg-3') {
-        currentBalance = 5010773;
+        currentBalance = 3010773;
+      } else if (tx.id === '2-w-wch-1') {
+        currentBalance = 15608000;
+      } else if (tx.id === '2-w-dg-4') {
+        currentBalance = 13008000;
+      } else if (tx.id === '2-w-dg-5') {
+        currentBalance = 14608000;
+      } else if (tx.id === '2-w-dg-6') {
+        currentBalance = 16608000;
+      } else if (tx.id.startsWith('2-w-jhy-')) {
+        const num = Number(tx.id.replace('2-w-jhy-', ''));
+        if (num >= 11) {
+          currentBalance = 610773;
+        } else {
+          if (tx.type === '입금') {
+            currentBalance += tx.amount;
+          } else {
+            currentBalance -= tx.amount;
+          }
+        }
       } else {
         if (tx.type === '입금') {
           currentBalance += tx.amount;

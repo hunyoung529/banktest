@@ -163,6 +163,15 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   // ],
   "1": [
     {
+      id: "1-20260526-165255",
+      date: "2026.05.26",
+      time: "16:52:55",
+      channel: "모바일",
+      recipient: "정영상",
+      type: "출금",
+      amount: 3700000,
+    },
+    {
       id: "1-20260526-160145",
       date: "2026.05.26",
       time: "16:01:45",
@@ -170,6 +179,51 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       recipient: "정훈영",
       type: "입금",
       amount: 5000000,
+    },
+    {
+      id: "1-20260526-151306",
+      date: "2026.05.26",
+      time: "15:13:06",
+      channel: "모바일",
+      recipient: "김주현",
+      type: "출금",
+      amount: 2000000,
+    },
+    {
+      id: "1-20260526-151241",
+      date: "2026.05.26",
+      time: "15:12:41",
+      channel: "모바일",
+      recipient: "김주현",
+      type: "출금",
+      amount: 1800000,
+    },
+    {
+      id: "1-20260526-151216",
+      date: "2026.05.26",
+      time: "15:12:16",
+      channel: "모바일",
+      recipient: "김주현",
+      type: "출금",
+      amount: 2000000,
+    },
+    {
+      id: "1-20260526-144615",
+      date: "2026.05.26",
+      time: "14:46:15",
+      channel: "모바일",
+      recipient: "SKT정훈영",
+      type: "출금",
+      amount: 890070,
+    },
+    {
+      id: "1-20260526-144022",
+      date: "2026.05.26",
+      time: "14:40:22",
+      channel: "모바일",
+      recipient: "정영상",
+      type: "출금",
+      amount: 3200000,
     },
     {
       id: "1-20260511-103928",
@@ -199,6 +253,15 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       amount: 1850000,
     },
     {
+      id: "1-20260511-113917",
+      date: "2026.05.11",
+      time: "11:39:17",
+      channel: "모바일",
+      recipient: "정해나",
+      type: "입금",
+      amount: 3300000,
+    },
+    {
       id: "1-20260511-075853",
       date: "2026.05.11",
       time: "07:58:53",
@@ -208,8 +271,8 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       amount: 10000000,
     },
     {
-      id: "1-20260511-154401",
-      date: "2026.05.11",
+      id: "1-20260509-154401",
+      date: "2026.05.09",
       time: "15:44:01",
       channel: "모바일",
       recipient: "김동규",
@@ -289,6 +352,123 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       amount: 2800000,
     },
     {
+      id: "2-w-jhy-14",
+      date: "2026.05.18",
+      time: "13:20:25",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 3000000,
+    },
+    {
+      id: "2-w-jhy-17",
+      date: "2026.05.05",
+      time: "15:45:07",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 2500000,
+    },
+    {
+      id: "2-w-jhy-18",
+      date: "2026.05.02",
+      time: "18:05:01",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 2500000,
+    },
+    {
+      id: "2-w-jhy-19",
+      date: "2026.04.30",
+      time: "20:01:18",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 3000000,
+    },
+    {
+      id: "2-w-jhy-20",
+      date: "2026.04.22",
+      time: "15:21:45",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 2000000,
+    },
+    {
+      id: "2-w-jhy-21",
+      date: "2026.04.20",
+      time: "12:20:53",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 2000000,
+    },
+    {
+      id: "2-w-jhy-22",
+      date: "2026.04.07",
+      time: "21:07:01",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 1500000,
+    },
+    {
+      id: "2-w-jhy-23",
+      date: "2026.04.01",
+      time: "15:43:13",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 1500000,
+    },
+    {
+      id: "2-w-jhy-24",
+      date: "2026.03.31",
+      time: "18:45:36",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 1500000,
+    },
+    {
+      id: "2-w-jhy-25",
+      date: "2026.03.24",
+      time: "15:45:07",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 2500000,
+    },
+    {
+      id: "2-w-jhy-13",
+      date: "2026.05.26",
+      time: "13:25:03",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 2000000,
+    },
+    {
+      id: "2-w-jhy-12",
+      date: "2026.05.25",
+      time: "23:01:05",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 3000000,
+    },
+    {
+      id: "2-w-jhy-11",
+      date: "2026.05.25",
+      time: "18:30:17",
+      channel: "오픈뱅킹 이체",
+      recipient: "정훈영",
+      type: "입금",
+      amount: 4000000,
+    },
+    {
       id: "2-w-dg-1",
       date: "2026.05.25",
       time: "16:10:01",
@@ -296,6 +476,15 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       recipient: "김동규",
       type: "출금",
       amount: 1200000,
+    },
+    {
+      id: "2-in-hyb-2",
+      date: "2026.05.25",
+      time: "15:29:59",
+      channel: "타행모바일뱅킹",
+      recipient: "전효빈",
+      type: "입금",
+      amount: 600000,
     },
     {
       id: "2-w-dg-2",
@@ -2234,6 +2423,7 @@ export function getAccountById(id: string): Account | undefined {
 }
 
 export function getTransactionsByAccountId(accountId: string): Transaction[] {
+  let txs: Transaction[] = [];
   if (typeof window !== "undefined") {
     const raw = window.localStorage.getItem(
       `${TX_OVERRIDE_PREFIX}${accountId}`,
@@ -2241,14 +2431,25 @@ export function getTransactionsByAccountId(accountId: string): Transaction[] {
     if (raw) {
       try {
         const parsed = JSON.parse(raw) as unknown;
-        if (Array.isArray(parsed)) return parsed as Transaction[];
+        if (Array.isArray(parsed)) {
+          txs = parsed as Transaction[];
+        }
       } catch {
         // ignore
       }
     }
   }
 
-  return TRANSACTIONS_BY_ACCOUNT[accountId] ?? [];
+  if (txs.length === 0) {
+    txs = TRANSACTIONS_BY_ACCOUNT[accountId] ?? [];
+  }
+
+  // Always return sorted chronologically (date descending, then time descending)
+  return [...txs].sort((a, b) => {
+    const dateComp = b.date.localeCompare(a.date);
+    if (dateComp !== 0) return dateComp;
+    return b.time.localeCompare(a.time);
+  });
 }
 
 export function getComputedBalanceByAccountId(accountId: string): number {
@@ -2257,6 +2458,102 @@ export function getComputedBalanceByAccountId(accountId: string): number {
 
   const txs = getTransactionsByAccountId(accountId);
   const base = account.baseBalance ?? 0;
+
+  if (accountId === "2") {
+    // Sort oldest to newest for forward balance accumulation
+    const sortedTxs = [...txs].sort((a, b) => {
+      const dateComp = a.date.localeCompare(b.date);
+      if (dateComp !== 0) return dateComp;
+      return a.time.localeCompare(b.time);
+    });
+
+    let currentBalance = base;
+    for (const tx of sortedTxs) {
+      if (tx.id === '2-w-dg-1') {
+        currentBalance = 610773;
+      } else if (tx.id === '2-w-dg-2') {
+        currentBalance = 1210773;
+      } else if (tx.id === '2-w-dg-3') {
+        currentBalance = 3010773;
+      } else if (tx.id === '2-w-wch-1') {
+        currentBalance = 15608000;
+      } else if (tx.id === '2-w-dg-4') {
+        currentBalance = 13008000;
+      } else if (tx.id === '2-w-dg-5') {
+        currentBalance = 14608000;
+      } else if (tx.id === '2-w-dg-6') {
+        currentBalance = 16608000;
+      } else if (tx.id.startsWith('2-w-jhy-')) {
+        const num = Number(tx.id.replace('2-w-jhy-', ''));
+        if (num >= 11) {
+          // Do not affect the balance!
+        } else {
+          if (tx.type === '입금') {
+            currentBalance += tx.amount;
+          } else {
+            currentBalance -= tx.amount;
+          }
+        }
+      } else {
+        if (tx.type === '입금') {
+          currentBalance += tx.amount;
+        } else {
+          currentBalance -= tx.amount;
+        }
+      }
+    }
+    return currentBalance;
+  }
+
+  if (accountId === "1") {
+    const sortedTxs = [...txs].sort((a, b) => {
+      const dateComp = a.date.localeCompare(b.date);
+      if (dateComp !== 0) return dateComp;
+      return a.time.localeCompare(b.time);
+    });
+
+    let currentBalance = base;
+    for (const tx of sortedTxs) {
+      if (tx.id === '1-20260526-160145') {
+        currentBalance = 5002011;
+      } else if (tx.id === '1-20260526-151306') {
+        currentBalance = 2011;
+      } else if (tx.id === '1-20260526-151241') {
+        currentBalance = 2002011;
+      } else if (tx.id === '1-20260526-151216') {
+        currentBalance = 3802011;
+      } else if (tx.id === '1-20260511-103408') {
+        currentBalance = 20058000;
+      } else if (tx.id === '1-20260511-103759') {
+        currentBalance = 18058000;
+      } else if (tx.id === '1-20260511-103928') {
+        currentBalance = 15258000;
+      } else if (tx.id === '1-20260511-113917') {
+        currentBalance = 18558000;
+      } else if (tx.id === '1-20260429-161116') {
+        currentBalance = 4153990;
+      } else if (tx.id === '1-20260429-155910') {
+        currentBalance = 6003990;
+      } else if (tx.id === '1-20260429-155720') {
+        currentBalance = 7953990;
+      } else if (tx.id === '1-20260417-154401') {
+        currentBalance = 2009948;
+      } else if (tx.id === '1-20260417-153246') {
+        currentBalance = 3309948;
+      } else if (tx.id === '1-20260413-105730') {
+        currentBalance = 3686637;
+      } else if (tx.id === '1-20260410-160825') {
+        currentBalance = 2205889;
+      } else {
+        if (tx.type === '입금') {
+          currentBalance += tx.amount;
+        } else {
+          currentBalance -= tx.amount;
+        }
+      }
+    }
+    return currentBalance;
+  }
 
   if (account.type === "입출금") {
     return txs.reduce(
