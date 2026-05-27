@@ -640,6 +640,15 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
       amount: 28000,
     },
     {
+      id: "2-w-ydw-3",
+      date: "2026.05.19",
+      time: "15:13:03",
+      channel: "모바일",
+      recipient: "윤도원",
+      type: "출금",
+      amount: 2350000,
+    },
+    {
       id: "2-w-kko-2",
       date: "2026.05.19",
       time: "08:05:43",

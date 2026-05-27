@@ -322,7 +322,7 @@ export default function TransactionsPage() {
         <div className="px-3 pb-3">
           <div className="flex items-center justify-between">
             <span className="text-sm text-text-secondary">
-              2026.02.01~ 2026.05.26
+              2026.02.27~2026.05.27
             </span>
             <button
               type="button"
@@ -652,7 +652,7 @@ export default function TransactionsPage() {
                   <button className="flex flex-col items-center gap-2 group">
                     <div className="w-14 h-14 rounded-full bg-[#F0F5FD] flex items-center justify-center hover:bg-[#E2EEFC] transition-colors shadow-sm">
                       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="#0070ED"/>
+                        <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="#0070ED" />
                       </svg>
                     </div>
                     <span className="text-[13px] font-medium text-gray-700">문자</span>
@@ -665,7 +665,7 @@ export default function TransactionsPage() {
                   >
                     <div className="w-14 h-14 rounded-full bg-[#F0F5FD] flex items-center justify-center hover:bg-[#E2EEFC] transition-colors shadow-sm">
                       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="#0070ED"/>
+                        <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="#0070ED" />
                       </svg>
                     </div>
                     <span className="text-[13px] font-medium text-gray-700">내역복사</span>
@@ -675,8 +675,8 @@ export default function TransactionsPage() {
                   <button className="flex flex-col items-center gap-2 group">
                     <div className="w-14 h-14 rounded-full bg-[#F0F5FD] flex items-center justify-center hover:bg-[#E2EEFC] transition-colors shadow-sm">
                       <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 12C19.8 12 20.5 11.5 21 10.7C21.7 9.5 21.7 7.7 21 6.5C20.2 5.2 18.6 4.3 16.7 4.3C15.2 4.3 13.9 4.9 13 5.8" stroke="#0070ED" strokeWidth="2" strokeLinecap="round"/>
-                        <path fillRule="evenodd" clipRule="evenodd" d="M12 6C7.03 6 3 9.36 3 13.5C3 15.36 3.8 17.05 5.15 18.29C4.8 19.84 4.1 21.05 4.05 21.13C3.9 21.43 4.15 21.77 4.48 21.69C5.7 21.4 7.6 20.65 8.7 19.98C9.75 20.32 10.86 20.5 12 20.5C16.97 20.5 21 17.14 21 13.5C21 9.36 16.97 6 12 6ZM8 13.5C8 12.95 8.45 12.5 9 12.5C9.55 12.5 10 12.95 10 13.5C10 14.05 9.55 14.5 9 14.5C8.45 14.5 8 14.05 8 13.5ZM12 14.5C11.45 14.5 11 14.05 11 13.5C11 12.95 11.45 12.5 12 12.5C12.55 12.5 13 12.95 13 13.5C13 14.05 12.55 14.5 12 14.5ZM15 13.5C15 12.95 15.45 12.5 16 12.5C16.55 12.5 17 12.95 17 13.5C17 14.05 16.55 14.5 16 14.5C15.45 14.5 15 14.05 15 13.5Z" fill="#0070ED"/>
+                        <path d="M19 12C19.8 12 20.5 11.5 21 10.7C21.7 9.5 21.7 7.7 21 6.5C20.2 5.2 18.6 4.3 16.7 4.3C15.2 4.3 13.9 4.9 13 5.8" stroke="#0070ED" strokeWidth="2" strokeLinecap="round" />
+                        <path fillRule="evenodd" clipRule="evenodd" d="M12 6C7.03 6 3 9.36 3 13.5C3 15.36 3.8 17.05 5.15 18.29C4.8 19.84 4.1 21.05 4.05 21.13C3.9 21.43 4.15 21.77 4.48 21.69C5.7 21.4 7.6 20.65 8.7 19.98C9.75 20.32 10.86 20.5 12 20.5C16.97 20.5 21 17.14 21 13.5C21 9.36 16.97 6 12 6ZM8 13.5C8 12.95 8.45 12.5 9 12.5C9.55 12.5 10 12.95 10 13.5C10 14.05 9.55 14.5 9 14.5C8.45 14.5 8 14.05 8 13.5ZM12 14.5C11.45 14.5 11 14.05 11 13.5C11 12.95 11.45 12.5 12 12.5C12.55 12.5 13 12.95 13 13.5C13 14.05 12.55 14.5 12 14.5ZM15 13.5C15 12.95 15.45 12.5 16 12.5C16.55 12.5 17 12.95 17 13.5C17 14.05 16.55 14.5 16 14.5C15.45 14.5 15 14.05 15 13.5Z" fill="#0070ED" />
                       </svg>
                     </div>
                     <span className="text-[13px] font-medium text-gray-700">스토리뱅크</span>
