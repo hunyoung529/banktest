@@ -163,6 +163,15 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   // ],
   "1": [
     {
+      id: "1-20260527-141347",
+      date: "2026.05.27",
+      time: "14:13:47",
+      channel: "타행모바일뱅킹",
+      recipient: "강재성",
+      type: "입금",
+      amount: 5000000,
+    },
+    {
       id: "1-20260526-165255",
       date: "2026.05.26",
       time: "16:52:55",
@@ -282,9 +291,9 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     {
       id: "1-20260508-234315",
       date: "2026.05.08",
-      time: "23:43:15",
+      time: "12:35:15",
       channel: "모바일",
-      recipient: "정영상",
+      recipient: "정경철",
       type: "입금",
       amount: 5000000,
     },
