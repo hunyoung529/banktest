@@ -160,7 +160,7 @@ export default function TransactionsPage() {
         const staticTxs = TRANSACTIONS_BY_ACCOUNT[accountId] || [];
         const staticHash = JSON.stringify(staticTxs.map(t => t.id));
         const storedHash = window.localStorage.getItem(`tx_static_hash_${accountId}`);
-        
+
         if (storedHash !== staticHash) {
           clearTransactionsOverrideByAccountId(accountId);
           window.localStorage.setItem(`tx_static_hash_${accountId}`, staticHash);
@@ -323,7 +323,7 @@ export default function TransactionsPage() {
         <div className="px-3 pb-3">
           <div className="flex items-center justify-between">
             <span className="text-sm text-text-secondary">
-              2026.02.27~2026.05.27
+              2026.02.27~2026.06.15
             </span>
             <button
               type="button"
