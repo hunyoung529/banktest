@@ -65,10 +65,6 @@ export default function MenuPage() {
 
   function handleSettingsOpenChange(nextOpen: boolean) {
     if (!nextOpen) {
-      if (unlocked) {
-        setAdminUnlocked(false);
-        setUnlocked(false);
-      }
       setPassword('');
       setPasswordError(false);
     }

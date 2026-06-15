@@ -156,17 +156,14 @@ export default function TransactionsPage() {
 
   useEffect(() => {
     if (accountId) {
-      // localStorage에 캐시된 데이터가 있고, 정적 데이터의 개수와 다르다면 캐시를 날려서 동기화해줍니다.
-      const cachedRaw = typeof window !== 'undefined' ? window.localStorage.getItem(`tx_override_${accountId}`) : null;
-      if (cachedRaw) {
-        try {
-          const cached = JSON.parse(cachedRaw);
-          const staticTxs = TRANSACTIONS_BY_ACCOUNT[accountId] || [];
-          if (Array.isArray(cached) && cached.length !== staticTxs.length) {
-            clearTransactionsOverrideByAccountId(accountId);
-          }
-        } catch (e) {
-          // ignore
+      if (typeof window !== 'undefined') {
+        const staticTxs = TRANSACTIONS_BY_ACCOUNT[accountId] || [];
+        const staticHash = JSON.stringify(staticTxs.map(t => t.id));
+        const storedHash = window.localStorage.getItem(`tx_static_hash_${accountId}`);
+        
+        if (storedHash !== staticHash) {
+          clearTransactionsOverrideByAccountId(accountId);
+          window.localStorage.setItem(`tx_static_hash_${accountId}`, staticHash);
         }
       }
       setTransactions(getTransactionsByAccountId(accountId));
@@ -176,9 +173,13 @@ export default function TransactionsPage() {
   }, [accountId]);
 
   const filteredTransactions = useMemo(() => {
-    if (filterType === '전체') return transactions;
-    return transactions.filter((tx) => tx.type === filterType);
-  }, [transactions, filterType]);
+    let list = transactions;
+    if (accountId === '1') {
+      list = list.filter((tx) => tx.date >= '2026.01.01');
+    }
+    if (filterType === '전체') return list;
+    return list.filter((tx) => tx.type === filterType);
+  }, [transactions, filterType, accountId]);
 
   /** 날짜별 그룹 (첫 번째 이미지 형식) */
   const byDate = useMemo(() => {
