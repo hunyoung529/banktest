@@ -323,7 +323,9 @@ export default function TransactionsPage() {
         <div className="px-3 pb-3">
           <div className="flex items-center justify-between">
             <span className="text-sm text-text-secondary">
-              2026.02.27~2026.06.15
+              {filteredTransactions.length > 0
+                ? `${filteredTransactions[filteredTransactions.length - 1].date}~${filteredTransactions[0].date}`
+                : '2026.02.27~2026.06.15'}
             </span>
             <button
               type="button"

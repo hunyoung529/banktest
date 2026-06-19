@@ -116,7 +116,18 @@ export const ACCOUNTS: Account[] = [
 /** 계좌별 거래내역 - 첫 번째 이미지 형식 통일 (날짜 그룹, 시간/모바일/상대방, 입금·금액) */
 export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   '1': [
+    { id: '1-20260619-140922', date: '2026.06.19', time: '14:09:22', channel: '모바일', recipient: '전효빈', type: '출금', amount: 540000 },
+    { id: '1-20260619-132957-1', date: '2026.06.19', time: '13:29:57', channel: '체크카드', recipient: '이스타항공(주)', type: '입금', amount: 133800 },
+    { id: '1-20260619-132957-2', date: '2026.06.19', time: '13:29:57', channel: '체크카드', recipient: '이스타항공(주)', type: '입금', amount: 133800 },
+    { id: '1-20260619-123422', date: '2026.06.19', time: '12:34:22', channel: '체크카드', recipient: '세븐일레븐 역삼행복점', type: '출금', amount: 10800 },
+    { id: '1-20260618-123155', date: '2026.06.18', time: '12:31:55', channel: '체크카드', recipient: '세븐일레븐 역삼행복점', type: '출금', amount: 9600 },
+    { id: '1-20260618-094022', date: '2026.06.18', time: '09:40:22', channel: '모바일', recipient: '정필곤', type: '출금', amount: 20000 },
+    { id: '1-20260617-123811', date: '2026.06.17', time: '12:38:11', channel: '체크카드', recipient: '세븐일레븐 역삼행복점', type: '출금', amount: 8900 },
+    { id: '1-20260617-102751', date: '2026.06.17', time: '10:27:51', channel: '모바일', recipient: '전효빈', type: '출금', amount: 5000000 },
+    { id: '1-20260617-094857', date: '2026.06.17', time: '09:48:57', channel: '펌뱅킹 이체', recipient: '한국주택공사', type: '입금', amount: 5000000 },
+    { id: '1-20260616-123540', date: '2026.06.16', time: '12:35:40', channel: '체크카드', recipient: '세븐일레븐 역삼행복점', type: '출금', amount: 10200 },
     { id: '1-20260615-162713', date: '2026.06.15', time: '16:27:13', channel: '모바일', recipient: '안만수', type: '출금', amount: 20000 },
+    { id: '1-20260615-123215', date: '2026.06.15', time: '12:32:15', channel: '체크카드', recipient: '세븐일레븐 역삼행복점', type: '출금', amount: 9300 },
     { id: '1-20260615-104331', date: '2026.06.15', time: '10:43:31', channel: '체크카드', recipient: '놀유니버스_항공권_', type: '출금', amount: 30000 },
     { id: '1-20260612-150933', date: '2026.06.12', time: '15:09:33', channel: '모바일', recipient: '법무법인신결', type: '출금', amount: 1200000 },
     { id: '1-20260612-150317', date: '2026.06.12', time: '15:03:17', channel: '모바일', recipient: '김동규', type: '출금', amount: 5250000 },
@@ -136,7 +147,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     { id: '1-20260610-110520', date: '2026.06.10', time: '11:05:20', channel: 'CMS지급', recipient: 'SK인텔릭스요금', type: '출금', amount: 17000 },
     { id: '1-20260609-123548', date: '2026.06.09', time: '12:35:48', channel: '체크카드', recipient: '세븐일레븐 역삼행복점', type: '출금', amount: 7300 },
     { id: '1-20260608-124437', date: '2026.06.08', time: '12:44:37', channel: '체크카드', recipient: '세븐일레븐 거평타운점', type: '출금', amount: 10200 },
-    { id: '1-20260606-103201', date: '2026.06.06', time: '10:32:01', channel: '타행인터넷뱅킹', recipient: '정영상', type: '입금', amount: 100000 },
+    { id: '1-20260606-103201', date: '2026.06.06', time: '10:32:01', channel: '타행인터넷뱅킹', recipient: '정영상', type: '입금', amount: 300000 },
     { id: '1-20260606-092425', date: '2026.06.06', time: '09:24:25', channel: '체크카드', recipient: '에어서울주식회사_B', type: '입금', amount: 133100 },
     { id: '1-20260606-092420', date: '2026.06.06', time: '09:24:20', channel: '체크카드', recipient: '에어서울주식회사_B', type: '입금', amount: 133100 },
     { id: '1-20260605-123905', date: '2026.06.05', time: '12:39:05', channel: '체크카드', recipient: '세븐일레븐 거평타운점', type: '출금', amount: 9800 },
