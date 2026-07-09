@@ -18,6 +18,22 @@ import {
 } from '@/lib/account-data';
 import { formatCurrency } from '@/lib/format';
 
+function formatInputDate(dateStr: string): string {
+  const cleaned = dateStr.replace(/\D/g, '');
+  if (cleaned.length === 8) {
+    return `${cleaned.slice(0, 4)}.${cleaned.slice(4, 6)}.${cleaned.slice(6, 8)}`;
+  }
+  return dateStr;
+}
+
+function formatInputTime(timeStr: string): string {
+  const cleaned = timeStr.replace(/\D/g, '');
+  if (cleaned.length === 6) {
+    return `${cleaned.slice(0, 2)}:${cleaned.slice(2, 4)}:${cleaned.slice(4, 6)}`;
+  }
+  return timeStr;
+}
+
 type TxForm = {
   id?: string;
   date: string;
@@ -48,7 +64,7 @@ export default function AdminPage() {
   const selectedAccount = useMemo(() => accounts.find((a) => a.id === selectedId), [accounts, selectedId]);
 
   const channelOptions = useMemo(
-    () => ['모바일', '펌뱅킹 이체', '타행모바일뱅킹', '오픈뱅킹 이체', 'FB자동'],
+    () => ['모바일', '체크카드', 'CD입금', '펌뱅킹 이체', '타행모바일뱅킹', '오픈뱅킹 이체', 'FB자동'],
     []
   );
 
@@ -96,10 +112,13 @@ export default function AdminPage() {
   function submitAdd() {
     if (!form.date || !form.time || !form.amount) return;
 
+    const formattedDate = formatInputDate(form.date);
+    const formattedTime = formatInputTime(form.time);
+
     const newTx: Transaction = {
       id: `${selectedId}-${Date.now()}`,
-      date: form.date,
-      time: form.time,
+      date: formattedDate,
+      time: formattedTime,
       channel: form.channel || '모바일',
       recipient: form.recipient || '-',
       type: form.type,
@@ -114,12 +133,15 @@ export default function AdminPage() {
     if (!form.id) return;
     if (!form.date || !form.time || !form.amount) return;
 
+    const formattedDate = formatInputDate(form.date);
+    const formattedTime = formatInputTime(form.time);
+
     const next = txs.map((t) =>
       t.id === form.id
         ? {
             ...t,
-            date: form.date,
-            time: form.time,
+            date: formattedDate,
+            time: formattedTime,
             channel: form.channel || '모바일',
             recipient: form.recipient || '-',
             type: form.type,

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { usePromo } from '@/state/usePromo';
 import { formatCurrency } from '@/lib/format';
 import { Button } from '@/components/ui/button';
@@ -22,14 +23,24 @@ import { getComputedBalanceByAccountId } from '@/lib/account-data';
 
 export default function Home() {
   const { open, setOpen, never, setNever } = usePromo();
+  const [loading, setLoading] = useState(false);
+
+  const handleUnavailableAction = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      alert('연결이 원할하지않습니다. 잠시 후 다시 시도해주세요');
+    }, 3000);
+  };
 
   return (
     <div
-      className="min-h-screen max-w-[430px] mx-auto relative pb-20"
+      className="min-h-screen max-w-[430px] mx-auto relative pb-20 bg-white"
       style={{ background: 'linear-gradient(180deg, rgb(255,255,255) 0%, rgb(255,255,255) 90px, rgb(245, 248, 253) 220px, rgb(245, 248, 253) 100%)' }}
     >
       {/* Header Navigation - M 로고 + 정훈영님, 검색/챗봇 */}
-      <div className="flex justify-between items-center px-3 py-3">
+      <div className="flex justify-between items-center px-3 py-3 bg-white">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 relative shrink-0">
             <Image src="/icons/home/m-logo.png" alt="M" width={36} height={36} className="object-contain" />
@@ -53,7 +64,7 @@ export default function Home() {
       </div>
 
       {/* Main Account Card */}
-      <Card className="mx-3 p-4 mb-4 shadow-card bg-white">
+      <Card className="mx-3 p-4 mb-4 shadow-card bg-white border border-gray-100">
         <CardContent className="p-0">
           <div className="flex justify-between items-start mb-3">
             <div className="flex items-center gap-2">
@@ -70,9 +81,11 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <Button variant="outline" className="text-xs text-text-secondary h-auto py-1 px-2 rounded-md border-line">
-              설정
-            </Button>
+            <Link href="/menu">
+              <Button variant="outline" className="text-xs text-text-secondary h-auto py-1 px-2 rounded-md border-line">
+                설정
+              </Button>
+            </Link>
           </div>
           <div className="mb-4">
             <Link href="/accounts/1/transactions" className="hover:opacity-80">
@@ -82,10 +95,16 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex gap-2">
-            <Button className="flex-1 text-sm font-semibold py-2 h-auto rounded-md" style={{backgroundColor: '#E3F2FD', color: '#1976F3'}}>
-              돈보내기
-            </Button>
-            <Button className="flex-1 text-sm font-semibold py-2 h-auto rounded-md" style={{backgroundColor: '#E3F2FD', color: '#1976F3'}}>
+            <Link href="/transfer" className="flex-1">
+              <Button className="w-full text-sm font-semibold py-2 h-auto rounded-md" style={{backgroundColor: '#E3F2FD', color: '#1976F3'}}>
+                돈보내기
+              </Button>
+            </Link>
+            <Button 
+              onClick={() => handleUnavailableAction()}
+              className="flex-1 text-sm font-semibold py-2 h-auto rounded-md" 
+              style={{backgroundColor: '#E3F2FD', color: '#1976F3'}}
+            >
               급여클럽+
             </Button>
           </div>
@@ -93,7 +112,10 @@ export default function Home() {
       </Card>
 
       {/* Security/Promo Section */}
-      <Card className="mx-3 p-3 mb-4 shadow-card bg-white">
+      <Card 
+        onClick={() => handleUnavailableAction()}
+        className="mx-3 p-3 mb-4 shadow-card bg-white cursor-pointer hover:opacity-95 border border-gray-100"
+      >
         <CardContent className="p-0 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 relative shrink-0">
@@ -105,60 +127,96 @@ export default function Home() {
         </CardContent>
       </Card>
 
-      {/* Action Grid - 3x2 (6개) - 제공 아이콘 사용 */}
+      {/* Action Grid - 3x2 (6개) */}
       <div className="grid grid-cols-2 gap-2 mx-3 mb-4">
         <Link href="/accounts" className="block">
-          <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white">
-            <div className="w-10 h-10 relative mb-1">
-              <Image src="/icons/home/search.png" alt="" width={40} height={40} className="object-contain" />
+          <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white hover:opacity-95 transition border border-gray-100">
+            <div className="w-10 h-10 flex items-center justify-center mb-1">
+              <Image src="/icons/home/search.png" alt="" width={32} height={32} className="object-contain" />
             </div>
-            <span className="text-xs text-text-primary">전체계좌조회</span>
+            <span className="text-xs text-text-primary font-medium">전체계좌조회</span>
           </Card>
         </Link>
-        <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white">
-          <div className="w-10 h-10 relative mb-1">
-            <Image src="/icons/home/send-money.png" alt="" width={40} height={40} className="object-contain" />
+        <Card 
+          onClick={() => handleUnavailableAction()}
+          className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white cursor-pointer hover:opacity-95 transition border border-gray-100"
+        >
+          <div className="w-10 h-10 flex items-center justify-center mb-1">
+            <Image src="/icons/home/send-money.png" alt="" width={32} height={32} className="object-contain" />
           </div>
-          <span className="text-xs text-text-primary">돈보내기</span>
+          <span className="text-xs text-text-primary font-medium">돈보내기</span>
         </Card>
-        <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white">
-          <div className="w-10 h-10 relative mb-1">
-            <Image src="/icons/home/product-join.png" alt="" width={40} height={40} className="object-contain" />
+        <Card 
+          onClick={() => handleUnavailableAction()}
+          className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white cursor-pointer hover:opacity-95 transition border border-gray-100"
+        >
+          <div className="w-10 h-10 flex items-center justify-center mb-1">
+            <Image src="/icons/home/product-join.png" alt="" width={32} height={32} className="object-contain" />
           </div>
-          <span className="text-xs text-text-primary">상품가입</span>
+          <span className="text-xs text-text-primary font-medium">상품가입</span>
         </Card>
-        <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white">
-          <div className="w-10 h-10 relative mb-1">
-            <Image src="/icons/home/atm.png" alt="" width={40} height={40} className="object-contain" />
+        <Card 
+          onClick={() => handleUnavailableAction()}
+          className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white cursor-pointer hover:opacity-95 transition border border-gray-100"
+        >
+          <div className="w-10 h-10 flex items-center justify-center mb-1">
+            <Image src="/icons/home/atm.png" alt="" width={32} height={32} className="object-contain" />
           </div>
-          <span className="text-xs text-text-primary">ATM 돈찾기</span>
+          <span className="text-xs text-text-primary font-medium">ATM 돈찾기</span>
         </Card>
-        <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white">
-          <div className="w-10 h-10 relative mb-1">
-            <Image src="/icons/home/bill.png" alt="" width={40} height={40} className="object-contain" />
+        <Card 
+          onClick={() => handleUnavailableAction()}
+          className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white cursor-pointer hover:opacity-95 transition border border-gray-100"
+        >
+          <div className="w-10 h-10 flex items-center justify-center mb-1">
+            <Image src="/icons/home/bill.png" alt="" width={32} height={32} className="object-contain" />
           </div>
-          <span className="text-xs text-text-primary">공과금내기</span>
+          <span className="text-xs text-text-primary font-medium">공과금내기</span>
         </Card>
-        <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white">
-          <Image src="/icons/home/accident.png" alt="" width={40} height={40} className="object-contain" />
-          <span className="text-xs text-text-primary">사고신고</span>
+        <Card 
+          onClick={() => handleUnavailableAction()}
+          className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white cursor-pointer hover:opacity-95 transition border border-gray-100"
+        >
+          <div className="w-10 h-10 flex items-center justify-center mb-1">
+            <Image src="/icons/home/accident.png" alt="" width={32} height={32} className="object-contain" />
+          </div>
+          <span className="text-xs text-text-primary font-medium">사고신고</span>
         </Card>
-
-        <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white">
-          <Image src="/icons/home/s-logo.png" alt="" width={40} height={40} className="object-contain" />
-          <span className="text-xs text-text-primary">신한인증서</span>
+        <Card 
+          onClick={() => handleUnavailableAction()}
+          className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white cursor-pointer hover:opacity-95 transition border border-gray-100"
+        >
+          <div className="w-10 h-10 flex items-center justify-center mb-1">
+            <Image src="/icons/home/s-logo.png" alt="" width={32} height={32} className="object-contain" />
+          </div>
+          <span className="text-xs text-text-primary font-medium">신한인증서</span>
         </Card>
-        <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white">
-          <Image src="/icons/home/lock-shield.png" alt="" width={40} height={40} className="object-contain" />
-          <span className="text-xs text-text-primary">보안서비스</span>
+        <Card 
+          onClick={() => handleUnavailableAction()}
+          className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white cursor-pointer hover:opacity-95 transition border border-gray-100"
+        >
+          <div className="w-10 h-10 flex items-center justify-center mb-1">
+            <Image src="/icons/home/lock-shield.png" alt="" width={32} height={32} className="object-contain" />
+          </div>
+          <span className="text-xs text-text-primary font-medium">보안서비스</span>
         </Card>
-        <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white">
-          <Image src="/icons/home/verify.png" alt="" width={40} height={40} className="object-contain" />
-          <span className="text-xs text-text-primary">SOL뱅크</span>
+        <Card 
+          onClick={() => handleUnavailableAction()}
+          className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white cursor-pointer hover:opacity-95 transition border border-gray-100"
+        >
+          <div className="w-10 h-10 flex items-center justify-center mb-1">
+            <Image src="/icons/home/verify.png" alt="" width={32} height={32} className="object-contain" />
+          </div>
+          <span className="text-xs text-text-primary font-medium">SOL뱅크</span>
         </Card>
-        <Card className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white">
-          <Image src="/icons/home/opinion.png" alt="" width={40} height={40} className="object-contain" />
-          <span className="text-xs text-text-primary">의견 말하기</span>
+        <Card 
+          onClick={() => handleUnavailableAction()}
+          className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white cursor-pointer hover:opacity-95 transition border border-gray-100"
+        >
+          <div className="w-10 h-10 flex items-center justify-center mb-1">
+            <Image src="/icons/home/opinion.png" alt="" width={32} height={32} className="object-contain" />
+          </div>
+          <span className="text-xs text-text-primary font-medium">의견 말하기</span>
         </Card>
       </div>
 
@@ -194,26 +252,26 @@ export default function Home() {
             <Button onClick={() => setOpen(false)} className="bg-brand text-text-inverse text-sm">
               확인
             </Button>
-            </div>
+          </div>
         </DialogContent>
       </Dialog>
 
       {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] border-t border-line py-2" style={{ backgroundColor: 'rgb(245, 248, 253)' }}>
+      <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[430px] border-t border-line py-2 z-40" style={{ backgroundColor: 'rgb(245, 248, 253)' }}>
         <div className="grid grid-cols-5 text-center text-xs">
-          <div className="flex flex-col items-center gap-0.5 text-brand">
+          <div className="flex flex-col items-center gap-0.5 text-brand cursor-pointer">
             <HomeIcon className="w-5 h-5" />
             <span>홈</span>
           </div>
-          <Link href="#" className="flex flex-col items-center gap-0.5 text-text-secondary">
+          <Link href="#" onClick={(e) => handleUnavailableAction(e)} className="flex flex-col items-center gap-0.5 text-text-secondary">
             <PieChart className="w-5 h-5" />
             <span>자산관리</span>
           </Link>
-          <Link href="#" className="flex flex-col items-center gap-0.5 text-text-secondary">
+          <Link href="#" onClick={(e) => handleUnavailableAction(e)} className="flex flex-col items-center gap-0.5 text-text-secondary">
             <ShoppingBag className="w-5 h-5" />
             <span>상품</span>
           </Link>
-          <Link href="#" className="flex flex-col items-center gap-0.5 text-text-secondary">
+          <Link href="#" onClick={(e) => handleUnavailableAction(e)} className="flex flex-col items-center gap-0.5 text-text-secondary">
             <Gift className="w-5 h-5" />
             <span>혜택</span>
           </Link>
@@ -223,6 +281,13 @@ export default function Home() {
           </Link>
         </div>
       </nav>
+
+      {/* Spinner Loading Overlay */}
+      {loading && (
+        <div className="fixed inset-0 bg-black/35 z-50 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-full border-4 border-gray-200 border-t-brand animate-spin" style={{ borderTopColor: 'rgb(25,118,243)' }} />
+        </div>
+      )}
     </div>
   );
 }
