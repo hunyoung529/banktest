@@ -91,7 +91,7 @@ export const ACCOUNTS: Account[] = [
     id: "4",
     name: "청년 주택드림 청약통장(근로소득자용)",
     number: "신한 223-108-233062",
-    balance: 4380000,
+    balance: 4980000,
     bank: "신한",
     type: "예적금",
   },
@@ -99,7 +99,7 @@ export const ACCOUNTS: Account[] = [
     id: "5",
     name: "개인형 IRP",
     number: "신한 223-120-345679",
-    balance: 500000,
+    balance: 1100000,
     bank: "신한",
     type: "예적금",
   },
@@ -107,7 +107,7 @@ export const ACCOUNTS: Account[] = [
     id: "6",
     name: "청년도약계좌",
     number: "신한 223-121-987654",
-    balance: 3500000,
+    balance: 7700000,
     bank: "신한",
     type: "예적금",
   },
@@ -116,6 +116,23 @@ export const ACCOUNTS: Account[] = [
 /** 계좌별 거래내역 - 첫 번째 이미지 형식 통일 (날짜 그룹, 시간/모바일/상대방, 입금·금액) */
 export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   '1': [
+    { id: '1-20260712-121115', date: '2026.07.12', time: '12:11:15', channel: '체크카드', recipient: '총각칼국수', type: '출금', amount: 7000 },
+    { id: '1-20260711-190510', date: '2026.07.11', time: '19:05:10', channel: '체크카드', recipient: '천서리막국수', type: '출금', amount: 12000 },
+    { id: '1-20260711-151510', date: '2026.07.11', time: '15:15:10', channel: 'FB자동', recipient: '서울가스', type: '출금', amount: 11860 },
+    { id: '1-20260711-141012', date: '2026.07.11', time: '14:10:12', channel: '체크카드', recipient: '빅픽처인터렉티브', type: '출금', amount: 10000 },
+    { id: '1-20260711-082515', date: '2026.07.11', time: '08:25:15', channel: '체크카드', recipient: '어정스파랜드', type: '출금', amount: 13000 },
+    { id: '1-20260710-203512', date: '2026.07.10', time: '20:35:12', channel: '체크카드', recipient: '사과당 마곡점', type: '출금', amount: 20600 },
+    { id: '1-20260710-201522', date: '2026.07.10', time: '20:15:22', channel: '체크카드', recipient: '버거킹화곡역점', type: '출금', amount: 10700 },
+    { id: '1-20260710-175820', date: '2026.07.10', time: '17:58:20', channel: 'CMS지급', recipient: 'SK인텔릭스요금', type: '출금', amount: 17000 },
+    { id: '1-20260710-175022', date: '2026.07.10', time: '17:50:22', channel: 'FB자동', recipient: '라힘컴퍼니', type: '출금', amount: 296000 },
+    { id: '1-20260710-174535', date: '2026.07.10', time: '17:45:35', channel: 'FB자동', recipient: '와이제이하우', type: '출금', amount: 44000 },
+    { id: '1-20260710-171535', date: '2026.07.10', time: '17:15:35', channel: 'FB자동', recipient: '통신SKB6527845508', type: '출금', amount: 55000 },
+    { id: '1-20260710-131826', date: '2026.07.10', time: '13:18:26', channel: '모바일', recipient: '정훈영', type: '출금', amount: 700000 },
+    { id: '1-20260710-131700', date: '2026.07.10', time: '13:17:00', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+    { id: '1-20260710-131611', date: '2026.07.10', time: '13:16:11', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+    { id: '1-20260710-131544', date: '2026.07.10', time: '13:15:44', channel: '모바일', recipient: '안만수', type: '출금', amount: 20000 },
+    { id: '1-20260710-125051', date: '2026.07.10', time: '12:50:51', channel: '모바일', recipient: '전효빈', type: '출금', amount: 200000 },
+    { id: '1-20260710-114805', date: '2026.07.10', time: '11:48:05', channel: '펌뱅킹 이체', recipient: '(주)탑앤스카우트', type: '입금', amount: 2030580 },
     { id: '1-20260709-125404', date: '2026.07.09', time: '12:54:04', channel: '모바일', recipient: '기흥구청(정영상)', type: '출금', amount: 46480 },
     { id: '1-20260709-125132', date: '2026.07.09', time: '12:51:32', channel: '모바일', recipient: '기흥구청(정영상)', type: '출금', amount: 156720 },
     { id: '1-20260709-125055', date: '2026.07.09', time: '12:50:55', channel: '모바일', recipient: '기흥구청(정영상)', type: '출금', amount: 271510 },
@@ -2499,8 +2516,9 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   //   ],
   "3": [],
   "4": [
-    { id: '4-20260110-1', date: '2026.01.10', time: '13:28:15', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
+    { id: '4-20260710-1', date: '2026.07.10', time: '13:16:11', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '4-20260610-1', date: '2026.06.10', time: '13:28:15', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
+    { id: '4-20260110-1', date: '2026.01.10', time: '13:28:15', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     {
       id: "4-20260510-1",
       date: "2026.05.10",
@@ -2531,8 +2549,9 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     ...buildCheongyakDeposits(),
   ],
   "5": [
-    { id: '5-20260110-1', date: '2026.01.10', time: '13:30:22', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
+    { id: '5-20260710-1', date: '2026.07.10', time: '13:17:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-20260610-1', date: '2026.06.10', time: '13:30:22', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
+    { id: '5-20260110-1', date: '2026.01.10', time: '13:30:22', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     {
       id: "5-20260510-1",
       date: "2026.05.10",
@@ -2607,8 +2626,9 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     },
   ],
   "6": [
-    { id: '6-20260110-1', date: '2026.01.10', time: '13:35:10', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
+    { id: '6-20260710-1', date: '2026.07.10', time: '13:18:26', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     { id: '6-20260610-1', date: '2026.06.10', time: '13:35:10', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
+    { id: '6-20260110-1', date: '2026.01.10', time: '13:35:10', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     {
       id: "6-20260510-1",
       date: "2026.05.10",
