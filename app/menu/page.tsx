@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Home, PieChart, ShoppingBag, Gift, Search, Menu } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { isAdminUnlocked, setAdminUnlocked } from '@/lib/account-data';
+import { RestrictedModal } from '@/components/restricted-modal';
+import { isAdminUnlocked, setAdminUnlocked, isRestrictedMode, setRestrictedMode } from '@/lib/account-data';
 
 type ViewState = 'idle' | 'loading' | 'error';
 
@@ -18,6 +19,25 @@ export default function MenuPage() {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
+  const [restrictedModalOpen, setRestrictedModalOpen] = useState(false);
+  const [restrictedMode, setRestrictedModeState] = useState(true);
+
+  useEffect(() => {
+    setRestrictedModeState(isRestrictedMode());
+  }, []);
+
+  function handleToggleRestrictedMode(mode: boolean) {
+    setRestrictedMode(mode);
+    setRestrictedModeState(mode);
+  }
+
+  const handleTransferClick = () => {
+    if (isRestrictedMode()) {
+      setRestrictedModalOpen(true);
+    } else {
+      router.push('/transfer');
+    }
+  };
 
   const quickMenus = useMemo(
     () => [
@@ -177,6 +197,14 @@ export default function MenuPage() {
               );
             }
 
+            if (m.id === 'transfer' || m.id === 'auto-transfer') {
+              return (
+                <button key={m.id} type="button" onClick={handleTransferClick} className={common}>
+                  {m.label}
+                </button>
+              );
+            }
+
             return (
               <button key={m.id} type="button" onClick={handleUnavailableClick} className={common}>
                 {m.label}
@@ -223,17 +251,43 @@ export default function MenuPage() {
 
           {unlocked ? (
             <div className="space-y-3">
-              <div className="text-sm text-text-secondary">편집 모드가 활성화되어 있습니다.</div>
-              <Button
-                className="w-full h-11 rounded-xl text-sm font-semibold"
-                style={{ backgroundColor: 'rgb(25,118,243)', color: 'rgb(255,255,255)' }}
-                onClick={() => {
-                  setSettingsOpen(false);
-                  router.push('/admin');
-                }}
-              >
-                거래내역 관리로 이동
-              </Button>
+              <div className="text-sm font-semibold text-text-primary text-center">버전 / 모드 선택</div>
+              
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  type="button"
+                  variant={restrictedMode ? 'default' : 'outline'}
+                  className="h-11 rounded-xl text-xs font-semibold"
+                  style={restrictedMode ? { backgroundColor: 'rgb(225, 29, 72)', color: 'rgb(255,255,255)' } : undefined}
+                  onClick={() => handleToggleRestrictedMode(true)}
+                >
+                  지급정지 버전 (기본)
+                </Button>
+                <Button
+                  type="button"
+                  variant={!restrictedMode ? 'default' : 'outline'}
+                  className="h-11 rounded-xl text-xs font-semibold"
+                  style={!restrictedMode ? { backgroundColor: 'rgb(25,118,243)', color: 'rgb(255,255,255)' } : undefined}
+                  onClick={() => handleToggleRestrictedMode(false)}
+                >
+                  지급정지X 버전
+                </Button>
+              </div>
+              <div className="text-xs text-text-secondary text-center">
+                {restrictedMode ? '현재: [사고신고 계좌 팝업 표출]' : '현재: [정상 이체 가능 버전]'}
+              </div>
+
+              <div className="pt-2 border-t border-line">
+                <Button
+                  className="w-full h-11 rounded-xl text-sm font-semibold bg-gray-800 text-white"
+                  onClick={() => {
+                    setSettingsOpen(false);
+                    router.push('/admin');
+                  }}
+                >
+                  거래내역 관리로 이동
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="space-y-3">
@@ -267,6 +321,9 @@ export default function MenuPage() {
           </Button>
         </DialogContent>
       </Dialog>
+
+      {/* Restricted Modal */}
+      <RestrictedModal open={restrictedModalOpen} onOpenChange={setRestrictedModalOpen} />
     </div>
   );
 }

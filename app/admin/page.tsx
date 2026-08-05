@@ -13,6 +13,8 @@ import {
   getTransactionsByAccountId,
   isAdminUnlocked,
   setAdminUnlocked,
+  isRestrictedMode,
+  setRestrictedMode,
   setTransactionsOverrideByAccountId,
   type Transaction,
 } from '@/lib/account-data';
@@ -51,6 +53,7 @@ export default function AdminPage() {
   const [txs, setTxs] = useState<Transaction[]>([]);
   const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const [restricted, setRestricted] = useState(true);
   const [form, setForm] = useState<TxForm>({
     date: '',
     time: '',
@@ -74,8 +77,14 @@ export default function AdminPage() {
       router.replace('/menu');
       return;
     }
+    setRestricted(isRestrictedMode());
     setReady(true);
   }, [router]);
+
+  function handleToggleRestricted(mode: boolean) {
+    setRestrictedMode(mode);
+    setRestricted(mode);
+  }
 
   useEffect(() => {
     if (!ready) return;
@@ -182,6 +191,33 @@ export default function AdminPage() {
             </button>
           </div>
         </div>
+        <div className="mt-3 bg-gray-50 p-3 rounded-xl border border-line">
+          <div className="text-xs font-bold text-text-secondary mb-2">모드 설정</div>
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              type="button"
+              variant={restricted ? 'default' : 'outline'}
+              className="h-10 text-xs font-semibold rounded-lg"
+              style={restricted ? { backgroundColor: 'rgb(225, 29, 72)', color: 'white' } : undefined}
+              onClick={() => handleToggleRestricted(true)}
+            >
+              지급정지 버전 (기본)
+            </Button>
+            <Button
+              type="button"
+              variant={!restricted ? 'default' : 'outline'}
+              className="h-10 text-xs font-semibold rounded-lg"
+              style={!restricted ? { backgroundColor: 'rgb(25,118,243)', color: 'white' } : undefined}
+              onClick={() => handleToggleRestricted(false)}
+            >
+              지급정지X 버전
+            </Button>
+          </div>
+          <div className="mt-1.5 text-[11px] text-text-muted text-center">
+            {restricted ? '현재: [사고신고 계좌 팝업 표출]' : '현재: [정상 이체 가능 버전]'}
+          </div>
+        </div>
+
         <div className="mt-3">
           <select
             value={selectedId}

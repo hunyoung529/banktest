@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { usePromo } from '@/state/usePromo';
 import { formatCurrency } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { RestrictedModal } from '@/components/restricted-modal';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -19,11 +21,22 @@ import {
   Copy,
   ShoppingBag,
 } from 'lucide-react';
-import { getComputedBalanceByAccountId } from '@/lib/account-data';
+import { getComputedBalanceByAccountId, isRestrictedMode } from '@/lib/account-data';
 
 export default function Home() {
+  const router = useRouter();
   const { open, setOpen, never, setNever } = usePromo();
   const [loading, setLoading] = useState(false);
+  const [restrictedModalOpen, setRestrictedModalOpen] = useState(false);
+
+  const handleTransferClick = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    if (isRestrictedMode()) {
+      setRestrictedModalOpen(true);
+    } else {
+      router.push('/transfer');
+    }
+  };
 
   const handleUnavailableAction = (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
@@ -95,11 +108,13 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex gap-2">
-            <Link href="/transfer" className="flex-1">
-              <Button className="w-full text-sm font-semibold py-2 h-auto rounded-md" style={{backgroundColor: '#E3F2FD', color: '#1976F3'}}>
-                돈보내기
-              </Button>
-            </Link>
+            <Button
+              onClick={handleTransferClick}
+              className="flex-1 text-sm font-semibold py-2 h-auto rounded-md"
+              style={{backgroundColor: '#E3F2FD', color: '#1976F3'}}
+            >
+              돈보내기
+            </Button>
             <Button 
               onClick={() => handleUnavailableAction()}
               className="flex-1 text-sm font-semibold py-2 h-auto rounded-md" 
@@ -138,7 +153,7 @@ export default function Home() {
           </Card>
         </Link>
         <Card 
-          onClick={() => handleUnavailableAction()}
+          onClick={handleTransferClick}
           className="p-3 flex flex-col items-center justify-center text-center shadow-card h-24 bg-white cursor-pointer hover:opacity-95 transition border border-gray-100"
         >
           <div className="w-10 h-10 flex items-center justify-center mb-1">
@@ -288,6 +303,8 @@ export default function Home() {
           <div className="w-14 h-14 rounded-full border-4 border-gray-200 border-t-brand animate-spin" style={{ borderTopColor: 'rgb(25,118,243)' }} />
         </div>
       )}
+      {/* Restricted Modal */}
+      <RestrictedModal open={restrictedModalOpen} onOpenChange={setRestrictedModalOpen} />
     </div>
   );
 }

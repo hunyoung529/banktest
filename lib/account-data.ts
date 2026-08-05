@@ -113,32 +113,51 @@ export const ACCOUNTS: Account[] = [
   },
 ];
 
-/** 계좌별 거래내역 - 첫 번째 이미지 형식 통일 (날짜 그룹, 시간/모바일/상대방, 입금·금액) */
-export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
-  '1': [
-    { id: '1-20260712-121115', date: '2026.07.12', time: '12:11:15', channel: '체크카드', recipient: '총각칼국수', type: '출금', amount: 7000 },
-    { id: '1-20260711-190510', date: '2026.07.11', time: '19:05:10', channel: '체크카드', recipient: '천서리막국수', type: '출금', amount: 12000 },
-    { id: '1-20260711-151510', date: '2026.07.11', time: '15:15:10', channel: 'FB자동', recipient: '서울가스', type: '출금', amount: 11860 },
-    { id: '1-20260711-141012', date: '2026.07.11', time: '14:10:12', channel: '체크카드', recipient: '빅픽처인터렉티브', type: '출금', amount: 10000 },
-    { id: '1-20260711-082515', date: '2026.07.11', time: '08:25:15', channel: '체크카드', recipient: '어정스파랜드', type: '출금', amount: 13000 },
-    { id: '1-20260710-203512', date: '2026.07.10', time: '20:35:12', channel: '체크카드', recipient: '사과당 마곡점', type: '출금', amount: 20600 },
-    { id: '1-20260710-201522', date: '2026.07.10', time: '20:15:22', channel: '체크카드', recipient: '버거킹화곡역점', type: '출금', amount: 10700 },
-    { id: '1-20260710-175820', date: '2026.07.10', time: '17:58:20', channel: 'CMS지급', recipient: 'SK인텔릭스요금', type: '출금', amount: 17000 },
-    { id: '1-20260710-175022', date: '2026.07.10', time: '17:50:22', channel: 'FB자동', recipient: '라힘컴퍼니', type: '출금', amount: 296000 },
-    { id: '1-20260710-174535', date: '2026.07.10', time: '17:45:35', channel: 'FB자동', recipient: '와이제이하우', type: '출금', amount: 44000 },
-    { id: '1-20260710-171535', date: '2026.07.10', time: '17:15:35', channel: 'FB자동', recipient: '통신SKB6527845508', type: '출금', amount: 55000 },
-    { id: '1-20260710-131826', date: '2026.07.10', time: '13:18:26', channel: '모바일', recipient: '정훈영', type: '출금', amount: 700000 },
-    { id: '1-20260710-131700', date: '2026.07.10', time: '13:17:00', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
-    { id: '1-20260710-131611', date: '2026.07.10', time: '13:16:11', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
-    { id: '1-20260710-131544', date: '2026.07.10', time: '13:15:44', channel: '모바일', recipient: '안만수', type: '출금', amount: 20000 },
-    { id: '1-20260710-125051', date: '2026.07.10', time: '12:50:51', channel: '모바일', recipient: '전효빈', type: '출금', amount: 200000 },
-    { id: '1-20260710-114805', date: '2026.07.10', time: '11:48:05', channel: '펌뱅킹 이체', recipient: '(주)탑앤스카우트', type: '입금', amount: 2030580 },
-    { id: '1-20260709-125404', date: '2026.07.09', time: '12:54:04', channel: '모바일', recipient: '기흥구청(정영상)', type: '출금', amount: 46480 },
-    { id: '1-20260709-125132', date: '2026.07.09', time: '12:51:32', channel: '모바일', recipient: '기흥구청(정영상)', type: '출금', amount: 156720 },
-    { id: '1-20260709-125055', date: '2026.07.09', time: '12:50:55', channel: '모바일', recipient: '기흥구청(정영상)', type: '출금', amount: 271510 },
-    { id: '1-20260709-124456', date: '2026.07.09', time: '12:44:56', channel: '모바일', recipient: '전효빈', type: '출금', amount: 300000 },
-    { id: '1-20260709-113700', date: '2026.07.09', time: '11:37:00', channel: 'CD입금', recipient: 'DB손보', type: '입금', amount: 319829 },
-    { id: '1-20260707-183635', date: '2026.07.07', time: '18:36:35', channel: '체크카드', recipient: '화곡기쁨약국', type: '출금', amount: 5000 },
+export const UNRESTRICTED_TRANSACTIONS_ACCOUNT_1: Transaction[] = [
+  { id: 'unres-1-20260802-053335', date: '2026.08.02', time: '05:33:35', channel: '모바일', recipient: '전효빈', type: '입금', amount: 400000 },
+  { id: 'unres-1-20260801-191111', date: '2026.08.01', time: '19:11:11', channel: '체크카드', recipient: '365약국', type: '출금', amount: 372000 },
+  { id: 'unres-1-20260801-073312', date: '2026.08.01', time: '07:33:12', channel: '체크카드', recipient: '한국건강관리협회', type: '출금', amount: 430000 },
+  { id: 'unres-1-20260731-162333', date: '2026.07.31', time: '16:23:33', channel: '모바일', recipient: '현대해상 정영상', type: '출금', amount: 278000 },
+  { id: 'unres-1-20260731-120355', date: '2026.07.31', time: '12:03:55', channel: '모바일', recipient: '전효빈', type: '입금', amount: 300000 },
+  { id: 'unres-1-20260729-185740', date: '2026.07.29', time: '18:57:40', channel: '모바일', recipient: '전효빈', type: '출금', amount: 31819 },
+  { id: 'unres-1-20260718-042756', date: '2026.07.18', time: '04:27:56', channel: '모바일', recipient: '전효빈', type: '입금', amount: 50000 },
+  { id: 'unres-1-20260718-040512', date: '2026.07.18', time: '04:05:12', channel: '모바일', recipient: '카카오T', type: '출금', amount: 72000 },
+  { id: 'unres-1-20260715-125205', date: '2026.07.15', time: '12:52:05', channel: '모바일', recipient: '전효빈', type: '출금', amount: 10000000 },
+  { id: 'unres-1-20260715-124433', date: '2026.07.15', time: '12:44:33', channel: '모바일', recipient: '이준안', type: '입금', amount: 10000000 },
+  { id: 'unres-1-20260714-193533', date: '2026.07.14', time: '19:35:33', channel: '모바일', recipient: '카페 화곡동', type: '출금', amount: 8000 },
+  { id: 'unres-1-20260714-185434', date: '2026.07.14', time: '18:54:34', channel: '체크카드', recipient: '하이 페이스트리', type: '출금', amount: 12400 },
+  { id: 'unres-1-20260713-215803', date: '2026.07.13', time: '21:58:03', channel: '체크카드', recipient: '유연 필라테스', type: '출금', amount: 480000 },
+  { id: 'unres-1-20260713-192011', date: '2026.07.13', time: '19:20:11', channel: '체크카드', recipient: '프레디 버거', type: '출금', amount: 11000 },
+  { id: 'unres-1-20260713-190611', date: '2026.07.13', time: '19:06:11', channel: '모바일', recipient: '전효빈', type: '입금', amount: 200000 },
+  { id: 'unres-1-20260712-191905', date: '2026.07.12', time: '19:19:05', channel: '모바일', recipient: '카페 화곡동', type: '출금', amount: 5000 },
+  { id: 'unres-1-20260712-191316', date: '2026.07.12', time: '19:13:16', channel: '체크카드', recipient: '카페 화곡동', type: '출금', amount: 10000 },
+  { id: 'unres-1-20260712-173633', date: '2026.07.12', time: '17:36:33', channel: '체크카드', recipient: '블레스드플라워마켓', type: '출금', amount: 11000 },
+];
+
+export const COMMON_PREVIOUS_TRANSACTIONS_1: Transaction[] = [
+  { id: '1-20260712-121115', date: '2026.07.12', time: '12:11:15', channel: '체크카드', recipient: '총각칼국수', type: '출금', amount: 7000 },
+  { id: '1-20260711-190510', date: '2026.07.11', time: '19:05:10', channel: '체크카드', recipient: '천서리막국수', type: '출금', amount: 12000 },
+  { id: '1-20260711-151510', date: '2026.07.11', time: '15:15:10', channel: 'FB자동', recipient: '서울가스', type: '출금', amount: 11860 },
+  { id: '1-20260711-141012', date: '2026.07.11', time: '14:10:12', channel: '체크카드', recipient: '빅픽처인터렉티브', type: '출금', amount: 10000 },
+  { id: '1-20260711-082515', date: '2026.07.11', time: '08:25:15', channel: '체크카드', recipient: '어정스파랜드', type: '출금', amount: 13000 },
+  { id: '1-20260710-203512', date: '2026.07.10', time: '20:35:12', channel: '체크카드', recipient: '사과당 마곡점', type: '출금', amount: 20600 },
+  { id: '1-20260710-201522', date: '2026.07.10', time: '20:15:22', channel: '체크카드', recipient: '버거킹화곡역점', type: '출금', amount: 10700 },
+  { id: '1-20260710-175820', date: '2026.07.10', time: '17:58:20', channel: 'CMS지급', recipient: 'SK인텔릭스요금', type: '출금', amount: 17000 },
+  { id: '1-20260710-175022', date: '2026.07.10', time: '17:50:22', channel: 'FB자동', recipient: '라힘컴퍼니', type: '출금', amount: 296000 },
+  { id: '1-20260710-174535', date: '2026.07.10', time: '17:45:35', channel: 'FB자동', recipient: '와이제이하우', type: '출금', amount: 44000 },
+  { id: '1-20260710-171535', date: '2026.07.10', time: '17:15:35', channel: 'FB자동', recipient: '통신SKB6527845508', type: '출금', amount: 55000 },
+  { id: '1-20260710-131826', date: '2026.07.10', time: '13:18:26', channel: '모바일', recipient: '정훈영', type: '출금', amount: 700000 },
+  { id: '1-20260710-131700', date: '2026.07.10', time: '13:17:00', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+  { id: '1-20260710-131611', date: '2026.07.10', time: '13:16:11', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+  { id: '1-20260710-131544', date: '2026.07.10', time: '13:15:44', channel: '모바일', recipient: '안만수', type: '출금', amount: 20000 },
+  { id: '1-20260710-125051', date: '2026.07.10', time: '12:50:51', channel: '모바일', recipient: '전효빈', type: '출금', amount: 200000 },
+  { id: '1-20260710-114805', date: '2026.07.10', time: '11:48:05', channel: '펌뱅킹 이체', recipient: '(주)탑앤스카우트', type: '입금', amount: 2030580 },
+  { id: '1-20260709-125404', date: '2026.07.09', time: '12:54:04', channel: '모바일', recipient: '기흥구청(정영상)', type: '출금', amount: 46480 },
+  { id: '1-20260709-125132', date: '2026.07.09', time: '12:51:32', channel: '모바일', recipient: '기흥구청(정영상)', type: '출금', amount: 156720 },
+  { id: '1-20260709-125055', date: '2026.07.09', time: '12:50:55', channel: '모바일', recipient: '기흥구청(정영상)', type: '출금', amount: 271510 },
+  { id: '1-20260709-124456', date: '2026.07.09', time: '12:44:56', channel: '모바일', recipient: '전효빈', type: '출금', amount: 300000 },
+  { id: '1-20260709-113700', date: '2026.07.09', time: '11:37:00', channel: 'CD입금', recipient: 'DB손보', type: '입금', amount: 319829 },
+  { id: '1-20260707-183635', date: '2026.07.07', time: '18:36:35', channel: '체크카드', recipient: '화곡기쁨약국', type: '출금', amount: 5000 },
     { id: '1-20260707-183402', date: '2026.07.07', time: '18:34:02', channel: '체크카드', recipient: '서울리더스안과', type: '출금', amount: 10700 },
     { id: '1-20260707-080533', date: '2026.07.07', time: '08:05:33', channel: '체크카드', recipient: '한국건강관리협회', type: '출금', amount: 27000 },
     { id: '1-20260706-190355', date: '2026.07.06', time: '19:03:55', channel: '체크카드', recipient: '카페화곡동', type: '출금', amount: 6000 },
@@ -350,8 +369,10 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     { id: '1-3', date: '2024.11.15', time: '14:20:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 50000 },
     { id: '1-4', date: '2024.10.10', time: '09:12:10', channel: '모바일', recipient: '정훈영', type: '입금', amount: 50000 },
     { id: '1-555', date: '2024.10.10', time: '09:12:10', channel: '모바일', recipient: '정훈영', type: '출금', amount: 1100000 },
-  ],
-  //   "1": [
+];
+
+export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
+  '1': [...UNRESTRICTED_TRANSACTIONS_ACCOUNT_1, ...COMMON_PREVIOUS_TRANSACTIONS_1],
   //     {
   //       id: "1-20260527-182321",
   //       date: "2026.05.27",
@@ -2704,6 +2725,17 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   ],
 };
 
+export const RESTRICTED_TRANSACTIONS_ACCOUNT_1: Transaction[] = [
+  { id: 'res-1-20260728-161511', date: '2026.07.28', time: '16:15:11', channel: '모바일', recipient: '이용익', type: '입금', amount: 1000000 },
+  { id: 'res-1-20260727-141535', date: '2026.07.27', time: '14:15:35', channel: '모바일', recipient: '이용익', type: '입금', amount: 700000 },
+  { id: 'res-1-20260718-232256', date: '2026.07.18', time: '23:22:56', channel: '타행이체', recipient: '여인범', type: '입금', amount: 1250000 },
+  { id: 'res-1-20260717-093212', date: '2026.07.17', time: '09:32:12', channel: '모바일', recipient: '이태중', type: '출금', amount: 5000000 },
+  { id: 'res-1-20260715-082226', date: '2026.07.15', time: '08:22:26', channel: '모바일', recipient: '이태중', type: '출금', amount: 5000000 },
+  { id: 'res-1-20260714-112212', date: '2026.07.14', time: '11:22:12', channel: '모바일', recipient: '이태중', type: '출금', amount: 5000000 },
+  { id: 'res-1-20260714-104637', date: '2026.07.14', time: '10:46:37', channel: '전자금융', recipient: '오신택', type: '입금', amount: 13700000 },
+  { id: 'res-1-20260714-104620', date: '2026.07.14', time: '10:46:20', channel: '전자금융', recipient: '오신택', type: '입금', amount: 46000000 },
+];
+
 /** 홈 메인 계좌 (입출금 저축예금 = id 1) */
 export const HOME_MAIN_ACCOUNT_ID = "1";
 
@@ -2713,10 +2745,13 @@ export function getAccountById(id: string): Account | undefined {
 
 export function getTransactionsByAccountId(accountId: string): Transaction[] {
   let txs: Transaction[] = [];
+  const restricted = isRestrictedMode();
+  const overrideKey = restricted
+    ? `${TX_OVERRIDE_PREFIX}restricted_${accountId}`
+    : `${TX_OVERRIDE_PREFIX}${accountId}`;
+
   if (typeof window !== "undefined") {
-    const raw = window.localStorage.getItem(
-      `${TX_OVERRIDE_PREFIX}${accountId}`,
-    );
+    const raw = window.localStorage.getItem(overrideKey);
     if (raw) {
       try {
         const parsed = JSON.parse(raw) as unknown;
@@ -2730,7 +2765,11 @@ export function getTransactionsByAccountId(accountId: string): Transaction[] {
   }
 
   if (txs.length === 0) {
-    txs = TRANSACTIONS_BY_ACCOUNT[accountId] ?? [];
+    if (restricted && accountId === "1") {
+      txs = [...RESTRICTED_TRANSACTIONS_ACCOUNT_1, ...COMMON_PREVIOUS_TRANSACTIONS_1];
+    } else {
+      txs = TRANSACTIONS_BY_ACCOUNT[accountId] ?? [];
+    }
   }
 
   // Always return sorted chronologically (date descending, then time descending)
@@ -2871,18 +2910,42 @@ export function setAdminUnlocked(unlocked: boolean): void {
   window.localStorage.setItem(ADMIN_UNLOCKED_KEY, unlocked ? "true" : "false");
 }
 
+const RESTRICTED_MODE_KEY = "banktest_restricted_mode";
+
+/** 기본값은 true (지급정지 버전). false인 경우 지급정지X 버전 (정상 모드) */
+export function isRestrictedMode(): boolean {
+  if (typeof window === "undefined") return true;
+  const val = window.localStorage.getItem(RESTRICTED_MODE_KEY);
+  if (val === null) return true; // 기본값 true
+  return val === "true";
+}
+
+export function setRestrictedMode(restricted: boolean): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(RESTRICTED_MODE_KEY, restricted ? "true" : "false");
+}
+
 export function setTransactionsOverrideByAccountId(
   accountId: string,
   txs: Transaction[],
 ): void {
   if (typeof window === "undefined") return;
+  const restricted = isRestrictedMode();
+  const overrideKey = restricted
+    ? `${TX_OVERRIDE_PREFIX}restricted_${accountId}`
+    : `${TX_OVERRIDE_PREFIX}${accountId}`;
   window.localStorage.setItem(
-    `${TX_OVERRIDE_PREFIX}${accountId}`,
+    overrideKey,
     JSON.stringify(txs),
   );
 }
 
 export function clearTransactionsOverrideByAccountId(accountId: string): void {
   if (typeof window === "undefined") return;
-  window.localStorage.removeItem(`${TX_OVERRIDE_PREFIX}${accountId}`);
+  const restricted = isRestrictedMode();
+  const overrideKey = restricted
+    ? `${TX_OVERRIDE_PREFIX}restricted_${accountId}`
+    : `${TX_OVERRIDE_PREFIX}${accountId}`;
+  window.localStorage.removeItem(overrideKey);
 }
+

@@ -1,19 +1,31 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { formatCurrency } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { RestrictedModal } from '@/components/restricted-modal';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, MessageCircle, Mic, Home, Copy, RefreshCw, MoreVertical, PieChart, ShoppingBag, Gift, ChevronRight, Menu } from 'lucide-react';
-import { ACCOUNTS, getComputedBalanceByAccountId, type AccountType } from '@/lib/account-data';
+import { ACCOUNTS, getComputedBalanceByAccountId, isRestrictedMode, type AccountType } from '@/lib/account-data';
 
 type TopTab = '계좌' | '카드' | '머니포인트';
 
 export default function AccountsPage() {
+  const router = useRouter();
   const [topTab, setTopTab] = useState<TopTab>('계좌');
   const [accountFilter, setAccountFilter] = useState<AccountType>('입출금');
+  const [restrictedModalOpen, setRestrictedModalOpen] = useState(false);
+
+  const handleTransferClick = () => {
+    if (isRestrictedMode()) {
+      setRestrictedModalOpen(true);
+    } else {
+      router.push('/transfer');
+    }
+  };
 
   const filteredAccounts = useMemo(() => {
     return ACCOUNTS.filter((a) => a.type === accountFilter);
@@ -251,7 +263,7 @@ export default function AccountsPage() {
                     </div>
 
                     <div className="flex border-t border-line bg-[rgb(245,248,253)]">
-                      <Button variant="ghost" className="flex-1 text-text-primary text-xs py-2.5 rounded-none border-r border-line">
+                      <Button variant="ghost" onClick={handleTransferClick} className="flex-1 text-text-primary text-xs py-2.5 rounded-none border-r border-line">
                         이체
                       </Button>
                       {account.bank === '신한' && (
@@ -419,6 +431,8 @@ export default function AccountsPage() {
           </Link>
         </div>
       </nav>
+      {/* Restricted Modal */}
+      <RestrictedModal open={restrictedModalOpen} onOpenChange={setRestrictedModalOpen} />
     </div>
   );
 }

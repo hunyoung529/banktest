@@ -4,10 +4,12 @@ import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, MessageSquare, Mic, Home, ChevronDown, Check, Send, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { RestrictedModal } from '@/components/restricted-modal';
 import { 
   getComputedBalanceByAccountId, 
   getTransactionsByAccountId, 
   setTransactionsOverrideByAccountId, 
+  isRestrictedMode,
   type Transaction 
 } from '@/lib/account-data';
 import { formatCurrency } from '@/lib/format';
@@ -40,6 +42,13 @@ export default function TransferPage() {
   const [accountNumber, setAccountNumber] = useState('');
   const [selectedBank, setSelectedBank] = useState('');
   const [bankModalOpen, setBankModalOpen] = useState(false);
+  const [restrictedOpen, setRestrictedOpen] = useState(false);
+
+  useEffect(() => {
+    if (isRestrictedMode()) {
+      setRestrictedOpen(true);
+    }
+  }, []);
 
   // 2단계 (금액 입력)
   const [amountStr, setAmountStr] = useState('');
@@ -642,6 +651,14 @@ export default function TransferPage() {
         </div>
       )}
 
+      {/* Restricted Modal */}
+      <RestrictedModal 
+        open={restrictedOpen} 
+        onOpenChange={(open) => {
+          setRestrictedOpen(open);
+          if (!open) router.push('/');
+        }} 
+      />
     </div>
   );
 }
