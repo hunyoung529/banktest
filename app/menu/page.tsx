@@ -20,7 +20,7 @@ export default function MenuPage() {
   const [passwordError, setPasswordError] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
   const [restrictedModalOpen, setRestrictedModalOpen] = useState(false);
-  const [restrictedMode, setRestrictedModeState] = useState(true);
+  const [restrictedMode, setRestrictedModeState] = useState(false);
 
   useEffect(() => {
     setRestrictedModeState(isRestrictedMode());
@@ -261,7 +261,7 @@ export default function MenuPage() {
                   style={restrictedMode ? { backgroundColor: 'rgb(225, 29, 72)', color: 'rgb(255,255,255)' } : undefined}
                   onClick={() => handleToggleRestrictedMode(true)}
                 >
-                  지급정지 버전 (기본)
+                  지급정지 버전
                 </Button>
                 <Button
                   type="button"
@@ -270,7 +270,7 @@ export default function MenuPage() {
                   style={!restrictedMode ? { backgroundColor: 'rgb(25,118,243)', color: 'rgb(255,255,255)' } : undefined}
                   onClick={() => handleToggleRestrictedMode(false)}
                 >
-                  지급정지X 버전
+                  지급정지X 버전 (기본)
                 </Button>
               </div>
               <div className="text-xs text-text-secondary text-center">

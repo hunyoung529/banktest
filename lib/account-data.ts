@@ -91,7 +91,7 @@ export const ACCOUNTS: Account[] = [
     id: "4",
     name: "청년 주택드림 청약통장(근로소득자용)",
     number: "신한 223-108-233062",
-    balance: 4980000,
+    balance: 5080000,
     bank: "신한",
     type: "예적금",
   },
@@ -99,7 +99,7 @@ export const ACCOUNTS: Account[] = [
     id: "5",
     name: "개인형 IRP",
     number: "신한 223-120-345679",
-    balance: 1100000,
+    balance: 1200000,
     bank: "신한",
     type: "예적금",
   },
@@ -107,16 +107,26 @@ export const ACCOUNTS: Account[] = [
     id: "6",
     name: "청년도약계좌",
     number: "신한 223-121-987654",
-    balance: 7700000,
+    balance: 8400000,
     bank: "신한",
     type: "예적금",
   },
 ];
 
 export const UNRESTRICTED_TRANSACTIONS_ACCOUNT_1: Transaction[] = [
-  { id: 'unres-1-20260802-053335', date: '2026.08.02', time: '05:33:35', channel: '모바일', recipient: '전효빈', type: '입금', amount: 400000 },
+  { id: 'unres-1-20260810-175820', date: '2026.08.10', time: '17:58:20', channel: 'CMS지급', recipient: 'SK인텔릭스요금', type: '출금', amount: 17000 },
+  { id: 'unres-1-20260810-175751', date: '2026.08.10', time: '17:57:51', channel: '모바일', recipient: '전효빈', type: '출금', amount: 100000 },
+  { id: 'unres-1-20260810-175022', date: '2026.08.10', time: '17:50:22', channel: 'FB자동', recipient: '라힘컴퍼니', type: '출금', amount: 296000 },
+  { id: 'unres-1-20260810-174535', date: '2026.08.10', time: '17:45:35', channel: 'FB자동', recipient: '와이제이하우', type: '출금', amount: 44000 },
+  { id: 'unres-1-20260810-171535', date: '2026.08.10', time: '17:15:35', channel: 'FB자동', recipient: '통신SKB6527845508', type: '출금', amount: 55000 },
+  { id: 'unres-1-20260810-131826', date: '2026.08.10', time: '13:18:26', channel: '모바일', recipient: '정훈영', type: '출금', amount: 700000 },
+  { id: 'unres-1-20260810-131700', date: '2026.08.10', time: '13:17:00', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+  { id: 'unres-1-20260810-131611', date: '2026.08.10', time: '13:16:11', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
+  { id: 'unres-1-20260810-131544', date: '2026.08.10', time: '13:15:44', channel: '모바일', recipient: '안만수', type: '출금', amount: 20000 },
+  { id: 'unres-1-20260810-114805', date: '2026.08.10', time: '11:48:05', channel: '펌뱅킹 이체', recipient: '(주)탑앤스카우트', type: '입금', amount: 2030580 },
   { id: 'unres-1-20260801-191111', date: '2026.08.01', time: '19:11:11', channel: '체크카드', recipient: '365약국', type: '출금', amount: 372000 },
   { id: 'unres-1-20260801-073312', date: '2026.08.01', time: '07:33:12', channel: '체크카드', recipient: '한국건강관리협회', type: '출금', amount: 430000 },
+  { id: 'unres-1-20260801-053335', date: '2026.08.01', time: '05:33:35', channel: '모바일', recipient: '전효빈', type: '입금', amount: 400000 },
   { id: 'unres-1-20260731-162333', date: '2026.07.31', time: '16:23:33', channel: '모바일', recipient: '현대해상 정영상', type: '출금', amount: 278000 },
   { id: 'unres-1-20260731-120355', date: '2026.07.31', time: '12:03:55', channel: '모바일', recipient: '전효빈', type: '입금', amount: 300000 },
   { id: 'unres-1-20260729-185740', date: '2026.07.29', time: '18:57:40', channel: '모바일', recipient: '전효빈', type: '출금', amount: 31819 },
@@ -187,6 +197,7 @@ export const COMMON_PREVIOUS_TRANSACTIONS_1: Transaction[] = [
     { id: '1-20260617-102751', date: '2026.06.17', time: '10:27:51', channel: '모바일', recipient: '전효빈', type: '출금', amount: 5000000 },
     { id: '1-20260617-094857', date: '2026.06.17', time: '09:48:57', channel: '펌뱅킹 이체', recipient: '한국주택공사', type: '입금', amount: 5000000 },
     { id: '1-20260616-123540', date: '2026.06.16', time: '12:35:40', channel: '체크카드', recipient: '세븐일레븐 역삼행복점', type: '출금', amount: 10200 },
+    { id: '1-20260615-183000', date: '2026.06.15', time: '18:30:00', channel: '모바일', recipient: '이용익', type: '출금', amount: 1600000 },
     { id: '1-20260615-162713', date: '2026.06.15', time: '16:27:13', channel: '모바일', recipient: '안만수', type: '출금', amount: 20000 },
     { id: '1-20260615-123215', date: '2026.06.15', time: '12:32:15', channel: '체크카드', recipient: '세븐일레븐 역삼행복점', type: '출금', amount: 9300 },
     { id: '1-20260615-104331', date: '2026.06.15', time: '10:43:31', channel: '체크카드', recipient: '놀유니버스_항공권_', type: '출금', amount: 30000 },
@@ -2537,6 +2548,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   //   ],
   "3": [],
   "4": [
+    { id: '4-20260810-1', date: '2026.08.10', time: '13:16:11', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '4-20260710-1', date: '2026.07.10', time: '13:16:11', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '4-20260610-1', date: '2026.06.10', time: '13:28:15', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '4-20260110-1', date: '2026.01.10', time: '13:28:15', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
@@ -2570,6 +2582,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     ...buildCheongyakDeposits(),
   ],
   "5": [
+    { id: '5-20260810-1', date: '2026.08.10', time: '13:17:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-20260710-1', date: '2026.07.10', time: '13:17:00', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-20260610-1', date: '2026.06.10', time: '13:30:22', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '5-20260110-1', date: '2026.01.10', time: '13:30:22', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
@@ -2647,6 +2660,7 @@ export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
     },
   ],
   "6": [
+    { id: '6-20260810-1', date: '2026.08.10', time: '13:18:26', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     { id: '6-20260710-1', date: '2026.07.10', time: '13:18:26', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     { id: '6-20260610-1', date: '2026.06.10', time: '13:35:10', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
     { id: '6-20260110-1', date: '2026.01.10', time: '13:35:10', channel: '모바일', recipient: '정훈영', type: '입금', amount: 700000 },
@@ -2912,11 +2926,11 @@ export function setAdminUnlocked(unlocked: boolean): void {
 
 const RESTRICTED_MODE_KEY = "banktest_restricted_mode";
 
-/** 기본값은 true (지급정지 버전). false인 경우 지급정지X 버전 (정상 모드) */
+/** 기본값은 false (지급정지X 버전 / 정상 모드). true인 경우 지급정지 버전 (거래 불가 모드) */
 export function isRestrictedMode(): boolean {
-  if (typeof window === "undefined") return true;
+  if (typeof window === "undefined") return false;
   const val = window.localStorage.getItem(RESTRICTED_MODE_KEY);
-  if (val === null) return true; // 기본값 true
+  if (val === null) return false; // 기본값 false
   return val === "true";
 }
 
