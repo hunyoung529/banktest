@@ -201,7 +201,7 @@ export default function AdminPage() {
               style={restricted ? { backgroundColor: 'rgb(225, 29, 72)', color: 'white' } : undefined}
               onClick={() => handleToggleRestricted(true)}
             >
-              지급정지 버전 (기본)
+              지급정지 버전
             </Button>
             <Button
               type="button"
@@ -210,7 +210,7 @@ export default function AdminPage() {
               style={!restricted ? { backgroundColor: 'rgb(25,118,243)', color: 'white' } : undefined}
               onClick={() => handleToggleRestricted(false)}
             >
-              지급정지X 버전
+              지급정지X 버전 (기본)
             </Button>
           </div>
           <div className="mt-1.5 text-[11px] text-text-muted text-center">

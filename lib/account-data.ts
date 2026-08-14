@@ -2926,11 +2926,11 @@ export function setAdminUnlocked(unlocked: boolean): void {
 
 const RESTRICTED_MODE_KEY = "banktest_restricted_mode";
 
-/** 기본값은 true (지급정지 버전 / 거래 불가 모드). false인 경우 지급정지X 버전 (정상 모드) */
+/** 기본값은 false (지급정지X 버전 / 정상 모드). true인 경우 지급정지 버전 (거래 불가 모드) */
 export function isRestrictedMode(): boolean {
-  if (typeof window === "undefined") return true;
+  if (typeof window === "undefined") return false;
   const val = window.localStorage.getItem(RESTRICTED_MODE_KEY);
-  if (val === null) return true; // 기본값 true (지급정지 버전)
+  if (val === null) return false; // 기본값 false (지급정지X 버전)
   return val === "true";
 }
 
