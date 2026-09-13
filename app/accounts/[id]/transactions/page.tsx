@@ -325,7 +325,7 @@ export default function TransactionsPage() {
             <span className="text-sm text-text-secondary">
               {filteredTransactions.length > 0
                 ? `${filteredTransactions[filteredTransactions.length - 1].date}~${filteredTransactions[0].date}`
-                : '2026.02.27~2026.06.15'}
+                : '2026.02.27~2026.09.10'}
             </span>
             <button
               type="button"
