@@ -114,14 +114,18 @@ export const ACCOUNTS: Account[] = [
 ];
 
 export const UNRESTRICTED_TRANSACTIONS_ACCOUNT_1: Transaction[] = [
+  { id: 'unres-1-20260915-204211', date: '2026.09.15', time: '20:42:11', channel: '체크카드', recipient: '헤어유', type: '출금', amount: 35000 },
+  { id: 'unres-1-20260914-124828', date: '2026.09.14', time: '12:48:28', channel: '체크카드', recipient: '우정사업본부', type: '출금', amount: 4000 },
+  { id: 'unres-1-20260913-114446', date: '2026.09.13', time: '11:44:46', channel: '체크카드', recipient: '카페화곡동', type: '출금', amount: 3000 },
   { id: 'unres-1-20260910-190844', date: '2026.09.10', time: '19:08:44', channel: 'CMS지급', recipient: 'SK인텔릭스요금', type: '출금', amount: 17000 },
-  { id: 'unres-1-20260910-183012', date: '2026.09.10', time: '18:30:12', channel: 'FB자동', recipient: '와이제이하우', type: '출금', amount: 88000 },
-  { id: 'unres-1-20260910-182933', date: '2026.09.10', time: '18:29:33', channel: 'FB자동', recipient: '라힘컴퍼니', type: '출금', amount: 516000 },
+  { id: 'unres-1-20260910-183012', date: '2026.09.10', time: '18:30:12', channel: 'FB자동', recipient: '와이제이하우', type: '출금', amount: 44000 },
+  { id: 'unres-1-20260910-182933', date: '2026.09.10', time: '18:29:33', channel: 'FB자동', recipient: '라힘컴퍼니', type: '출금', amount: 296000 },
   { id: 'unres-1-20260910-180830', date: '2026.09.10', time: '18:08:30', channel: '자동이체', recipient: '통신SKB6527845508', type: '출금', amount: 55000 },
   { id: 'unres-1-20260910-133510', date: '2026.09.10', time: '13:35:10', channel: '모바일', recipient: '정훈영', type: '출금', amount: 700000 },
   { id: 'unres-1-20260910-115030', date: '2026.09.10', time: '11:50:30', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
   { id: 'unres-1-20260910-112545', date: '2026.09.10', time: '11:25:45', channel: '모바일', recipient: '정훈영', type: '출금', amount: 100000 },
   { id: 'unres-1-20260910-090235', date: '2026.09.10', time: '09:02:35', channel: '펌뱅킹 이체', recipient: '(주)탑앤스카우트', type: '입금', amount: 2030580 },
+  { id: 'unres-1-20260905-123210', date: '2026.09.05', time: '12:32:10', channel: '체크카드', recipient: '유턴주유소', type: '출금', amount: 50000 },
   { id: 'unres-1-20260902-173920', date: '2026.09.02', time: '17:39:20', channel: '모바일', recipient: '전효빈', type: '출금', amount: 100000 },
   { id: 'unres-1-20260902-123544-1', date: '2026.09.02', time: '12:35:44', channel: '펌뱅킹 이체', recipient: '마켓컬리', type: '입금', amount: 110300 },
   { id: 'unres-1-20260902-123544-2', date: '2026.09.02', time: '12:35:44', channel: '체크카드', recipient: '고향한식뷔페', type: '출금', amount: 8000 },
@@ -400,6 +404,7 @@ export const COMMON_PREVIOUS_TRANSACTIONS_1: Transaction[] = [
     { id: '1-20260107-131213', date: '2026.01.07', time: '13:12:13', channel: '체크카드', recipient: 'CU역삼 행복점', type: '출금', amount: 9800 },
     { id: '1-20260106-132918', date: '2026.01.06', time: '13:29:18', channel: '체크카드', recipient: 'CU역삼 행복점', type: '출금', amount: 6800 },
     { id: '1-20260105-131120', date: '2026.01.05', time: '13:11:20', channel: '체크카드', recipient: 'CU역삼 행복점', type: '출금', amount: 8100 },
+    { id: '1-20260101-142000', date: '2026.01.01', time: '14:20:00', channel: 'ATM출금', recipient: 'ATM현금', type: '출금', amount: 500000 },
     { id: '1-20251231-183000', date: '2025.12.31', time: '18:30:00', channel: '모바일', recipient: '정영상', type: '출금', amount: 3000000 },
     { id: '1-1', date: '2025.01.24', time: '12:39:37', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
     { id: '1-2', date: '2024.12.20', time: '16:12:53', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
