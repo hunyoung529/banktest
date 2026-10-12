@@ -39,7 +39,13 @@ export default function TransactionsPage() {
     for (let i = transactions.length - 1; i >= 0; i--) {
       const tx = transactions[i];
 
-      if (tx.id === '1-20260526-160145') {
+      if (tx.id === 'unres-1-20261012-191928') {
+        currentBalance = 376130;
+      } else if (tx.id === 'unres-1-20261011-105833') {
+        currentBalance = 28550;
+      } else if (tx.id === 'unres-1-20260915-204211') {
+        currentBalance = 23870;
+      } else if (tx.id === '1-20260526-160145') {
         currentBalance = 5002011;
       } else if (tx.id === '1-20260526-151306') {
         currentBalance = 2011;
