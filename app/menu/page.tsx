@@ -8,6 +8,7 @@ import { Home, PieChart, ShoppingBag, Gift, Search, Menu } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { RestrictedModal } from '@/components/restricted-modal';
+import { FdsWarningModal } from '@/components/fds-warning-modal';
 import { isAdminUnlocked, setAdminUnlocked, isRestrictedMode, setRestrictedMode } from '@/lib/account-data';
 
 type ViewState = 'idle' | 'loading' | 'error';
@@ -20,6 +21,7 @@ export default function MenuPage() {
   const [passwordError, setPasswordError] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
   const [restrictedModalOpen, setRestrictedModalOpen] = useState(false);
+  const [fdsModalOpen, setFdsModalOpen] = useState(false);
   const [restrictedMode, setRestrictedModeState] = useState(false);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function MenuPage() {
     if (isRestrictedMode()) {
       setRestrictedModalOpen(true);
     } else {
-      router.push('/transfer');
+      setFdsModalOpen(true);
     }
   };
 
@@ -324,6 +326,12 @@ export default function MenuPage() {
 
       {/* Restricted Modal */}
       <RestrictedModal open={restrictedModalOpen} onOpenChange={setRestrictedModalOpen} />
+      {/* FDS Warning Modal */}
+      <FdsWarningModal
+        open={fdsModalOpen}
+        onOpenChange={setFdsModalOpen}
+        onConfirm={() => router.push('/transfer')}
+      />
     </div>
   );
 }

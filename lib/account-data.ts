@@ -114,6 +114,21 @@ export const ACCOUNTS: Account[] = [
 ];
 
 export const UNRESTRICTED_TRANSACTIONS_ACCOUNT_1: Transaction[] = [
+  { id: 'unres-1-20261126-180859', date: '2026.11.26', time: '18:08:59', channel: '모바일', recipient: '전효빈', type: '입금', amount: 10000000 },
+  { id: 'unres-1-20261126-180840', date: '2026.11.26', time: '18:08:40', channel: '모바일', recipient: '전효빈', type: '입금', amount: 10000000 },
+  { id: 'unres-1-20261125-192333', date: '2026.11.25', time: '19:23:33', channel: '모바일', recipient: '배달의민족', type: '출금', amount: 24500 },
+  { id: 'unres-1-20261125-120311', date: '2026.11.25', time: '12:03:11', channel: '타행모바일뱅킹', recipient: '마켓컬리', type: '입금', amount: 112350 },
+  { id: 'unres-1-20261125-012541', date: '2026.11.25', time: '01:25:41', channel: '모바일', recipient: '전효빈', type: '입금', amount: 10000000 },
+  { id: 'unres-1-20261125-012523', date: '2026.11.25', time: '01:25:23', channel: '모바일', recipient: '전효빈', type: '입금', amount: 10000000 },
+  { id: 'unres-1-20261125-012503-2', date: '2026.11.25', time: '01:25:03', channel: '모바일', recipient: '전효빈', type: '입금', amount: 10000000 },
+  { id: 'unres-1-20261125-012503-1', date: '2026.11.25', time: '01:25:03', channel: '모바일', recipient: '전효빈', type: '입금', amount: 10000000 },
+  { id: 'unres-1-20261125-012414', date: '2026.11.25', time: '01:24:14', channel: '모바일', recipient: '전효빈', type: '입금', amount: 10000000 },
+  { id: 'unres-1-20261124-203711', date: '2026.11.24', time: '20:37:11', channel: '체크카드', recipient: '백남옥달인손만두', type: '출금', amount: 12000 },
+  { id: 'unres-1-20261124-203611', date: '2026.11.24', time: '20:36:11', channel: '체크카드', recipient: '연백딸기모찌', type: '출금', amount: 14100 },
+  { id: 'unres-1-20261124-122001', date: '2026.11.24', time: '12:20:01', channel: '모바일', recipient: '전효빈', type: '입금', amount: 50000 },
+  { id: 'unres-1-20261124-081312', date: '2026.11.24', time: '08:13:12', channel: '체크카드', recipient: '한국건강관리협회', type: '출금', amount: 18900 },
+  { id: 'unres-1-20261122-143218', date: '2026.11.22', time: '14:32:18', channel: '체크카드', recipient: '투썸플레이스 강서화곡신월점', type: '출금', amount: 12200 },
+  { id: 'unres-1-20261122-020922', date: '2026.11.22', time: '02:09:22', channel: '체크카드', recipient: '철길부산집신도림푸르지오점', type: '출금', amount: 68000 },
   { id: 'unres-1-20261121-113621', date: '2026.11.21', time: '11:36:21', channel: '모바일', recipient: '한국주택공사', type: '출금', amount: 212380 },
   { id: 'unres-1-20261121-113611', date: '2026.11.21', time: '11:36:11', channel: '모바일', recipient: 'SKT', type: '출금', amount: 78000 },
   { id: 'unres-1-20261121-113554', date: '2026.11.21', time: '11:35:54', channel: '모바일', recipient: 'DB손보', type: '출금', amount: 110350 },
@@ -496,6 +511,7 @@ export const COMMON_PREVIOUS_TRANSACTIONS_1: Transaction[] = [
 
 export const TRANSACTIONS_BY_ACCOUNT: Record<string, Transaction[]> = {
   '1': [...UNRESTRICTED_TRANSACTIONS_ACCOUNT_1, ...COMMON_PREVIOUS_TRANSACTIONS_1],
+  "2": [],
   "3": [],
   "4": [
     { id: '4-20261121-1', date: '2026.11.21', time: '11:31:27', channel: '모바일', recipient: '정훈영', type: '입금', amount: 100000 },
@@ -774,7 +790,23 @@ export function getTransactionsByAccountId(accountId: string): Transaction[] {
     ? `${TX_OVERRIDE_PREFIX}restricted_${accountId}`
     : `${TX_OVERRIDE_PREFIX}${accountId}`;
 
+  const staticTxs =
+    restricted && accountId === "1"
+      ? [...RESTRICTED_TRANSACTIONS_ACCOUNT_1, ...COMMON_PREVIOUS_TRANSACTIONS_1]
+      : TRANSACTIONS_BY_ACCOUNT[accountId] ?? [];
+
   if (typeof window !== "undefined") {
+    const staticHashKey = restricted
+      ? `tx_static_hash_restricted_${accountId}`
+      : `tx_static_hash_${accountId}`;
+    const staticHash = JSON.stringify(staticTxs.map((t) => t.id));
+    const storedHash = window.localStorage.getItem(staticHashKey);
+
+    if (storedHash !== staticHash) {
+      window.localStorage.removeItem(overrideKey);
+      window.localStorage.setItem(staticHashKey, staticHash);
+    }
+
     const raw = window.localStorage.getItem(overrideKey);
     if (raw) {
       try {
@@ -789,11 +821,7 @@ export function getTransactionsByAccountId(accountId: string): Transaction[] {
   }
 
   if (txs.length === 0) {
-    if (restricted && accountId === "1") {
-      txs = [...RESTRICTED_TRANSACTIONS_ACCOUNT_1, ...COMMON_PREVIOUS_TRANSACTIONS_1];
-    } else {
-      txs = TRANSACTIONS_BY_ACCOUNT[accountId] ?? [];
-    }
+    txs = staticTxs;
   }
 
   // Always return sorted chronologically (date descending, then time descending)

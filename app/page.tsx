@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { RestrictedModal } from '@/components/restricted-modal';
+import { FdsWarningModal } from '@/components/fds-warning-modal';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -28,13 +29,14 @@ export default function Home() {
   const { open, setOpen, never, setNever } = usePromo();
   const [loading, setLoading] = useState(false);
   const [restrictedModalOpen, setRestrictedModalOpen] = useState(false);
+  const [fdsModalOpen, setFdsModalOpen] = useState(false);
 
   const handleTransferClick = (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
     if (isRestrictedMode()) {
       setRestrictedModalOpen(true);
     } else {
-      router.push('/transfer');
+      setFdsModalOpen(true);
     }
   };
 
@@ -305,6 +307,12 @@ export default function Home() {
       )}
       {/* Restricted Modal */}
       <RestrictedModal open={restrictedModalOpen} onOpenChange={setRestrictedModalOpen} />
+      {/* FDS Warning Modal */}
+      <FdsWarningModal
+        open={fdsModalOpen}
+        onOpenChange={setFdsModalOpen}
+        onConfirm={() => router.push('/transfer')}
+      />
     </div>
   );
 }

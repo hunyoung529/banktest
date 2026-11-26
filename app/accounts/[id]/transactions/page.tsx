@@ -4,15 +4,18 @@ import { formatCurrency } from '@/lib/format';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft, MessageCircle, BarChart3, Home, ChevronDown, PieChart, ShoppingBag, Gift, Menu, Search, Check, X, Pencil, MessageSquare, Mail, Copy, Smile } from 'lucide-react';
-import { useParams } from 'next/navigation';
-import { getAccountById, getComputedBalanceByAccountId, getTransactionsByAccountId, isAdminUnlocked, setTransactionsOverrideByAccountId, clearTransactionsOverrideByAccountId, TRANSACTIONS_BY_ACCOUNT, type Transaction } from '@/lib/account-data';
+import { useParams, useRouter } from 'next/navigation';
+import { getAccountById, getComputedBalanceByAccountId, getTransactionsByAccountId, isAdminUnlocked, isRestrictedMode, setTransactionsOverrideByAccountId, clearTransactionsOverrideByAccountId, TRANSACTIONS_BY_ACCOUNT, type Transaction } from '@/lib/account-data';
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { RestrictedModal } from '@/components/restricted-modal';
+import { FdsWarningModal } from '@/components/fds-warning-modal';
 
 export default function TransactionsPage() {
   const params = useParams();
+  const router = useRouter();
   const accountId = typeof params.id === 'string' ? params.id : params.id?.[0];
 
   const account = useMemo(() => (accountId ? getAccountById(accountId) : undefined), [accountId]);
@@ -23,9 +26,23 @@ export default function TransactionsPage() {
 
   const [filterType, setFilterType] = useState<'전체' | '입금' | '출금'>('전체');
   const [filterOpen, setFilterOpen] = useState(false);
+  const [restrictedModalOpen, setRestrictedModalOpen] = useState(false);
+  const [fdsModalOpen, setFdsModalOpen] = useState(false);
 
   const [selectedTx, setSelectedTx] = useState<Transaction | null>(null);
   const [memoValue, setMemoValue] = useState<string>('');
+
+  const handleTransferClick = () => {
+    if (isRestrictedMode()) {
+      setRestrictedModalOpen(true);
+      return;
+    }
+    if (accountId === '1') {
+      setFdsModalOpen(true);
+    } else {
+      router.push('/transfer');
+    }
+  };
 
   const txBalances = useMemo(() => {
     const balanceMap: Record<string, number> = {};
@@ -299,8 +316,9 @@ export default function TransactionsPage() {
           <Button
             className="flex-1 rounded-xl py-3 h-auto text-sm font-semibold"
             style={{ backgroundColor: 'rgb(154, 205, 255)', color: 'rgb(14, 16, 20)' }}
+            onClick={account.type === '입출금' ? handleTransferClick : undefined}
           >
-            입금
+            {account.type === '입출금' ? '이체' : '입금'}
           </Button>
           <Button
             className="flex-1 rounded-xl py-3 h-auto text-sm font-semibold"
@@ -706,6 +724,15 @@ export default function TransactionsPage() {
           </div>
         </div>
       )}
+
+      {/* Restricted Modal */}
+      <RestrictedModal open={restrictedModalOpen} onOpenChange={setRestrictedModalOpen} />
+      {/* FDS Warning Modal */}
+      <FdsWarningModal
+        open={fdsModalOpen}
+        onOpenChange={setFdsModalOpen}
+        onConfirm={() => router.push('/transfer')}
+      />
     </div>
   );
 }
