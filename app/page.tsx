@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { usePromo } from '@/state/usePromo';
 import { formatCurrency } from '@/lib/format';
@@ -22,7 +22,7 @@ import {
   Copy,
   ShoppingBag,
 } from 'lucide-react';
-import { getComputedBalanceByAccountId, isRestrictedMode } from '@/lib/account-data';
+import { getComputedBalanceByAccountId, isFdsWarningEnabled, isRestrictedMode, subscribeAppModeChange } from '@/lib/account-data';
 
 export default function Home() {
   const router = useRouter();
@@ -30,13 +30,26 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [restrictedModalOpen, setRestrictedModalOpen] = useState(false);
   const [fdsModalOpen, setFdsModalOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [mainBalance, setMainBalance] = useState<number>(0);
+
+  useEffect(() => {
+    const refresh = () => {
+      setMainBalance(getComputedBalanceByAccountId('1'));
+      setMounted(true);
+    };
+    refresh();
+    return subscribeAppModeChange(refresh);
+  }, []);
 
   const handleTransferClick = (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
     if (isRestrictedMode()) {
       setRestrictedModalOpen(true);
-    } else {
+    } else if (isFdsWarningEnabled()) {
       setFdsModalOpen(true);
+    } else {
+      router.push('/transfer');
     }
   };
 
@@ -105,7 +118,7 @@ export default function Home() {
           <div className="mb-4">
             <Link href="/accounts/1/transactions" className="hover:opacity-80">
               <span className="text-2xl font-bold text-text-primary">
-                {formatCurrency(getComputedBalanceByAccountId('1'))}
+                {mounted ? formatCurrency(mainBalance) : '\u00A0'}
               </span>
             </Link>
           </div>

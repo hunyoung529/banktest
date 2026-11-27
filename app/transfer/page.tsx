@@ -10,6 +10,7 @@ import {
   getTransactionsByAccountId, 
   setTransactionsOverrideByAccountId, 
   isRestrictedMode,
+  subscribeAppModeChange,
   type Transaction 
 } from '@/lib/account-data';
 import { formatCurrency } from '@/lib/format';
@@ -45,14 +46,19 @@ export default function TransferPage() {
   const [restrictedOpen, setRestrictedOpen] = useState(false);
 
   useEffect(() => {
-    if (isRestrictedMode()) {
-      setRestrictedOpen(true);
-    }
+    const refresh = () => {
+      if (isRestrictedMode()) {
+        setRestrictedOpen(true);
+      }
+      setBalance(getComputedBalanceByAccountId('1'));
+    };
+    refresh();
+    return subscribeAppModeChange(refresh);
   }, []);
 
   // 2단계 (금액 입력)
   const [amountStr, setAmountStr] = useState('');
-  const balance = useMemo(() => getComputedBalanceByAccountId('1'), []);
+  const [balance, setBalance] = useState<number>(() => getComputedBalanceByAccountId('1', 'v1'));
 
   // 메모 고정값: 내통장메모 '전효빈', 받는분메모 '정훈영'
   const recipientMemo = '정훈영';

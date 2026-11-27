@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { formatCurrency } from '@/lib/format';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,7 @@ import { FdsWarningModal } from '@/components/fds-warning-modal';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, MessageCircle, Mic, Home, Copy, RefreshCw, MoreVertical, PieChart, ShoppingBag, Gift, ChevronRight, Menu } from 'lucide-react';
-import { ACCOUNTS, getComputedBalanceByAccountId, isRestrictedMode, type AccountType } from '@/lib/account-data';
+import { ACCOUNTS, getComputedBalanceByAccountId, isFdsWarningEnabled, isRestrictedMode, subscribeAppModeChange, type AccountType } from '@/lib/account-data';
 
 type TopTab = '계좌' | '카드' | '머니포인트';
 
@@ -20,13 +20,20 @@ export default function AccountsPage() {
   const [accountFilter, setAccountFilter] = useState<AccountType>('입출금');
   const [restrictedModalOpen, setRestrictedModalOpen] = useState(false);
   const [fdsModalOpen, setFdsModalOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [refreshTick, setRefreshTick] = useState(0);
+
+  useEffect(() => {
+    setMounted(true);
+    return subscribeAppModeChange(() => setRefreshTick((v) => v + 1));
+  }, []);
 
   const handleTransferClick = (accountId: string) => {
     if (isRestrictedMode()) {
       setRestrictedModalOpen(true);
       return;
     }
-    if (accountId === '1') {
+    if (accountId === '1' && isFdsWarningEnabled()) {
       setFdsModalOpen(true);
     } else {
       router.push('/transfer');
@@ -38,10 +45,13 @@ export default function AccountsPage() {
   }, [accountFilter]);
 
   const summary = useMemo(() => {
+    void refreshTick;
     const list = ACCOUNTS.filter((a) => a.type === accountFilter);
-    const total = list.reduce((sum, a) => sum + getComputedBalanceByAccountId(a.id), 0);
+    const total = mounted
+      ? list.reduce((sum, a) => sum + getComputedBalanceByAccountId(a.id), 0)
+      : 0;
     return { count: list.length, total };
-  }, [accountFilter]);
+  }, [accountFilter, mounted, refreshTick]);
 
   const moneyPointSummary = useMemo(() => {
     const count = 7;
@@ -198,7 +208,7 @@ export default function AccountsPage() {
                 {accountFilter} {summary.count}
               </span>
               <div className="flex items-center gap-1">
-                <span className="text-base font-bold text-text-primary">{formatCurrency(summary.total)}</span>
+                <span className="text-base font-bold text-text-primary">{mounted ? formatCurrency(summary.total) : '\u00A0'}</span>
                 <span className="text-text-secondary">&gt;</span>
               </div>
             </div>
@@ -263,7 +273,7 @@ export default function AccountsPage() {
 
                       <Link href={`/accounts/${account.id}/transactions`} className="block mb-3 text-right">
                         <p className="text-xl font-bold text-text-primary hover:opacity-80 text-right">
-                          {formatCurrency(getComputedBalanceByAccountId(account.id))}
+                          {mounted ? formatCurrency(getComputedBalanceByAccountId(account.id)) : '\u00A0'}
                         </p>
                       </Link>
                     </div>

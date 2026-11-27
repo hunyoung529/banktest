@@ -57,6 +57,21 @@ function buildCheongyakDeposits(): Transaction[] {
 
 const ADMIN_UNLOCKED_KEY = "admin_unlocked";
 const TX_OVERRIDE_PREFIX = "tx_override_";
+const APP_MODE_KEY = "banktest_app_mode";
+const RESTRICTED_MODE_KEY = "banktest_restricted_mode";
+
+export type AppMode = "v1" | "v2" | "restricted";
+
+/** 버전 2 전용 7천만원(1,000만원 x 7건) 입금 거래 ID */
+const V2_SEVENTY_MILLION_TX_IDS = new Set<string>([
+  "unres-1-20261126-180859",
+  "unres-1-20261126-180840",
+  "unres-1-20261125-012541",
+  "unres-1-20261125-012523",
+  "unres-1-20261125-012503-2",
+  "unres-1-20261125-012503-1",
+  "unres-1-20261125-012414",
+]);
 
 /** 전체 계좌 목록 - 입출금 3개 + 예적금 1개(청년 주택드림) */
 export const ACCOUNTS: Account[] = [
@@ -783,22 +798,46 @@ export function getAccountById(id: string): Account | undefined {
   return ACCOUNTS.find((a) => a.id === id);
 }
 
-export function getTransactionsByAccountId(accountId: string): Transaction[] {
+export const UNRESTRICTED_V1_TRANSACTIONS_ACCOUNT_1: Transaction[] =
+  UNRESTRICTED_TRANSACTIONS_ACCOUNT_1.filter(
+    (tx) => !V2_SEVENTY_MILLION_TX_IDS.has(tx.id),
+  );
+
+function getStaticTransactionsByAccountId(
+  accountId: string,
+  mode: AppMode,
+): Transaction[] {
+  if (accountId === "1") {
+    if (mode === "restricted") {
+      return [...RESTRICTED_TRANSACTIONS_ACCOUNT_1, ...COMMON_PREVIOUS_TRANSACTIONS_1];
+    }
+    if (mode === "v1") {
+      return [...UNRESTRICTED_V1_TRANSACTIONS_ACCOUNT_1, ...COMMON_PREVIOUS_TRANSACTIONS_1];
+    }
+    return [...UNRESTRICTED_TRANSACTIONS_ACCOUNT_1, ...COMMON_PREVIOUS_TRANSACTIONS_1];
+  }
+  return TRANSACTIONS_BY_ACCOUNT[accountId] ?? [];
+}
+
+function getOverrideKey(accountId: string, mode: AppMode): string {
+  return `${TX_OVERRIDE_PREFIX}${mode}_${accountId}`;
+}
+
+function getStaticHashKey(accountId: string, mode: AppMode): string {
+  return `tx_static_hash_${mode}_${accountId}`;
+}
+
+export function getTransactionsByAccountId(
+  accountId: string,
+  modeOverride?: AppMode,
+): Transaction[] {
   let txs: Transaction[] = [];
-  const restricted = isRestrictedMode();
-  const overrideKey = restricted
-    ? `${TX_OVERRIDE_PREFIX}restricted_${accountId}`
-    : `${TX_OVERRIDE_PREFIX}${accountId}`;
+  const mode = modeOverride ?? getAppMode();
+  const staticTxs = getStaticTransactionsByAccountId(accountId, mode);
 
-  const staticTxs =
-    restricted && accountId === "1"
-      ? [...RESTRICTED_TRANSACTIONS_ACCOUNT_1, ...COMMON_PREVIOUS_TRANSACTIONS_1]
-      : TRANSACTIONS_BY_ACCOUNT[accountId] ?? [];
-
-  if (typeof window !== "undefined") {
-    const staticHashKey = restricted
-      ? `tx_static_hash_restricted_${accountId}`
-      : `tx_static_hash_${accountId}`;
+  if (typeof window !== "undefined" && !modeOverride) {
+    const overrideKey = getOverrideKey(accountId, mode);
+    const staticHashKey = getStaticHashKey(accountId, mode);
     const staticHash = JSON.stringify(staticTxs.map((t) => t.id));
     const storedHash = window.localStorage.getItem(staticHashKey);
 
@@ -832,11 +871,14 @@ export function getTransactionsByAccountId(accountId: string): Transaction[] {
   });
 }
 
-export function getComputedBalanceByAccountId(accountId: string): number {
+export function getComputedBalanceByAccountId(
+  accountId: string,
+  modeOverride?: AppMode,
+): number {
   const account = getAccountById(accountId);
   if (!account) return 0;
 
-  const txs = getTransactionsByAccountId(accountId);
+  const txs = getTransactionsByAccountId(accountId, modeOverride);
   const base = account.baseBalance ?? 0;
 
   if (accountId === "2") {
@@ -968,19 +1010,83 @@ export function setAdminUnlocked(unlocked: boolean): void {
   window.localStorage.setItem(ADMIN_UNLOCKED_KEY, unlocked ? "true" : "false");
 }
 
-const RESTRICTED_MODE_KEY = "banktest_restricted_mode";
+const APP_MODE_EVENT = "banktest-mode-change";
 
-/** 기본값은 false (지급정지X 버전 / 정상 모드). true인 경우 지급정지 버전 (거래 불가 모드) */
+function readCookie(name: string): string | null {
+  if (typeof document === "undefined") return null;
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = document.cookie.match(new RegExp(`(?:^|; )${escaped}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function writeCookie(name: string, value: string): void {
+  if (typeof document === "undefined") return;
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=31536000; SameSite=Lax`;
+}
+
+/**
+ * 앱 버전 / 모드 조회
+ * - 최초 미설정 시 기본값: "v1" (7천만원 미반영, 48시간 고액출금정지 팝업 미표출)
+ * - 설정에서 버전을 선택하면 localStorage + 쿠키에 저장되어 이후 기본 버전으로 유지
+ * - "v2": 7천만원 반영, 48시간 고액출금정지(FDS 경고) 팝업 표출
+ * - "restricted": 지급정지 버전 (사고신고 계좌 팝업 표출)
+ */
+export function getAppMode(): AppMode {
+  if (typeof window === "undefined") return "v1";
+  const stored = window.localStorage.getItem(APP_MODE_KEY);
+  if (stored === "v1" || stored === "v2" || stored === "restricted") {
+    return stored;
+  }
+  const fromCookie = readCookie(APP_MODE_KEY);
+  if (fromCookie === "v1" || fromCookie === "v2" || fromCookie === "restricted") {
+    window.localStorage.setItem(APP_MODE_KEY, fromCookie);
+    return fromCookie;
+  }
+  return "v1";
+}
+
+export function setAppMode(mode: AppMode): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(APP_MODE_KEY, mode);
+  window.localStorage.setItem(
+    RESTRICTED_MODE_KEY,
+    mode === "restricted" ? "true" : "false",
+  );
+  writeCookie(APP_MODE_KEY, mode);
+  window.dispatchEvent(new CustomEvent<AppMode>(APP_MODE_EVENT, { detail: mode }));
+}
+
+export function subscribeAppModeChange(callback: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  const onModeChange = () => callback();
+  const onStorage = (e: StorageEvent) => {
+    if (!e.key || e.key === APP_MODE_KEY || e.key.startsWith(TX_OVERRIDE_PREFIX)) {
+      callback();
+    }
+  };
+  const onPageShow = () => callback();
+  window.addEventListener(APP_MODE_EVENT, onModeChange);
+  window.addEventListener("storage", onStorage);
+  window.addEventListener("pageshow", onPageShow);
+  return () => {
+    window.removeEventListener(APP_MODE_EVENT, onModeChange);
+    window.removeEventListener("storage", onStorage);
+    window.removeEventListener("pageshow", onPageShow);
+  };
+}
+
+/** 48시간 고액출금정지(FDS 경고) 팝업 활성화 여부 (버전 2에서만 활성화) */
+export function isFdsWarningEnabled(): boolean {
+  return getAppMode() === "v2";
+}
+
+/** true인 경우 지급정지 버전 (거래 불가 모드) */
 export function isRestrictedMode(): boolean {
-  if (typeof window === "undefined") return false;
-  const val = window.localStorage.getItem(RESTRICTED_MODE_KEY);
-  if (val === null) return false; // 기본값 false (지급정지X 버전)
-  return val === "true";
+  return getAppMode() === "restricted";
 }
 
 export function setRestrictedMode(restricted: boolean): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(RESTRICTED_MODE_KEY, restricted ? "true" : "false");
+  setAppMode(restricted ? "restricted" : "v1");
 }
 
 export function setTransactionsOverrideByAccountId(
@@ -988,22 +1094,13 @@ export function setTransactionsOverrideByAccountId(
   txs: Transaction[],
 ): void {
   if (typeof window === "undefined") return;
-  const restricted = isRestrictedMode();
-  const overrideKey = restricted
-    ? `${TX_OVERRIDE_PREFIX}restricted_${accountId}`
-    : `${TX_OVERRIDE_PREFIX}${accountId}`;
-  window.localStorage.setItem(
-    overrideKey,
-    JSON.stringify(txs),
-  );
+  const overrideKey = getOverrideKey(accountId, getAppMode());
+  window.localStorage.setItem(overrideKey, JSON.stringify(txs));
 }
 
 export function clearTransactionsOverrideByAccountId(accountId: string): void {
   if (typeof window === "undefined") return;
-  const restricted = isRestrictedMode();
-  const overrideKey = restricted
-    ? `${TX_OVERRIDE_PREFIX}restricted_${accountId}`
-    : `${TX_OVERRIDE_PREFIX}${accountId}`;
+  const overrideKey = getOverrideKey(accountId, getAppMode());
   window.localStorage.removeItem(overrideKey);
 }
 

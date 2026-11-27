@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft, MessageCircle, BarChart3, Home, ChevronDown, PieChart, ShoppingBag, Gift, Menu, Search, Check, X, Pencil, MessageSquare, Mail, Copy, Smile } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { getAccountById, getComputedBalanceByAccountId, getTransactionsByAccountId, isAdminUnlocked, isRestrictedMode, setTransactionsOverrideByAccountId, clearTransactionsOverrideByAccountId, TRANSACTIONS_BY_ACCOUNT, type Transaction } from '@/lib/account-data';
+import { getAccountById, getComputedBalanceByAccountId, getTransactionsByAccountId, isAdminUnlocked, isFdsWarningEnabled, isRestrictedMode, setTransactionsOverrideByAccountId, subscribeAppModeChange, type Transaction } from '@/lib/account-data';
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -31,13 +31,14 @@ export default function TransactionsPage() {
 
   const [selectedTx, setSelectedTx] = useState<Transaction | null>(null);
   const [memoValue, setMemoValue] = useState<string>('');
+  const [mounted, setMounted] = useState(false);
 
   const handleTransferClick = () => {
     if (isRestrictedMode()) {
       setRestrictedModalOpen(true);
       return;
     }
-    if (accountId === '1') {
+    if (accountId === '1' && isFdsWarningEnabled()) {
       setFdsModalOpen(true);
     } else {
       router.push('/transfer');
@@ -178,22 +179,23 @@ export default function TransactionsPage() {
   }, []);
 
   useEffect(() => {
-    if (accountId) {
-      if (typeof window !== 'undefined') {
-        const staticTxs = TRANSACTIONS_BY_ACCOUNT[accountId] || [];
-        const staticHash = JSON.stringify(staticTxs.map(t => t.id));
-        const storedHash = window.localStorage.getItem(`tx_static_hash_${accountId}`);
-
-        if (storedHash !== staticHash) {
-          clearTransactionsOverrideByAccountId(accountId);
-          window.localStorage.setItem(`tx_static_hash_${accountId}`, staticHash);
-        }
+    const refresh = () => {
+      setMounted(true);
+      if (accountId) {
+        setTransactions(getTransactionsByAccountId(accountId));
+      } else {
+        setTransactions([]);
       }
-      setTransactions(getTransactionsByAccountId(accountId));
-    } else {
-      setTransactions([]);
-    }
+    };
+    refresh();
+    return subscribeAppModeChange(refresh);
   }, [accountId]);
+
+  const displayedBalance = useMemo(() => {
+    if (!account || !mounted) return null;
+    void transactions;
+    return getComputedBalanceByAccountId(account.id);
+  }, [account, mounted, transactions]);
 
   const filteredTransactions = useMemo(() => {
     let list = transactions;
@@ -309,7 +311,7 @@ export default function TransactionsPage() {
         </div>
 
         <p className="text-[32px] font-bold text-text-primary mb-4 tracking-tight">
-          {formatCurrency(getComputedBalanceByAccountId(account.id))}
+          {displayedBalance !== null ? formatCurrency(displayedBalance) : '\u00A0'}
         </p>
 
         <div className="flex gap-3">

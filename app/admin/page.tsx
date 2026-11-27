@@ -9,13 +9,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import {
   ACCOUNTS,
   clearTransactionsOverrideByAccountId,
+  getAppMode,
   getComputedBalanceByAccountId,
   getTransactionsByAccountId,
   isAdminUnlocked,
   setAdminUnlocked,
-  isRestrictedMode,
-  setRestrictedMode,
+  setAppMode,
   setTransactionsOverrideByAccountId,
+  type AppMode,
   type Transaction,
 } from '@/lib/account-data';
 import { formatCurrency } from '@/lib/format';
@@ -53,7 +54,7 @@ export default function AdminPage() {
   const [txs, setTxs] = useState<Transaction[]>([]);
   const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [restricted, setRestricted] = useState(false);
+  const [appMode, setAppModeState] = useState<AppMode>('v1');
   const [form, setForm] = useState<TxForm>({
     date: '',
     time: '',
@@ -77,19 +78,19 @@ export default function AdminPage() {
       router.replace('/menu');
       return;
     }
-    setRestricted(isRestrictedMode());
+    setAppModeState(getAppMode());
     setReady(true);
   }, [router]);
 
-  function handleToggleRestricted(mode: boolean) {
-    setRestrictedMode(mode);
-    setRestricted(mode);
+  function handleSelectMode(mode: AppMode) {
+    setAppMode(mode);
+    setAppModeState(mode);
   }
 
   useEffect(() => {
     if (!ready) return;
     setTxs(getTransactionsByAccountId(selectedId));
-  }, [ready, selectedId]);
+  }, [ready, selectedId, appMode]);
 
   function persist(next: Transaction[]) {
     setTxs(next);
@@ -192,29 +193,40 @@ export default function AdminPage() {
           </div>
         </div>
         <div className="mt-3 bg-gray-50 p-3 rounded-xl border border-line">
-          <div className="text-xs font-bold text-text-secondary mb-2">모드 설정</div>
+          <div className="text-xs font-bold text-text-secondary mb-2">기본 버전 / 모드 설정</div>
           <div className="grid grid-cols-2 gap-2">
             <Button
               type="button"
-              variant={restricted ? 'default' : 'outline'}
+              variant={appMode === 'v1' ? 'default' : 'outline'}
               className="h-10 text-xs font-semibold rounded-lg"
-              style={restricted ? { backgroundColor: 'rgb(225, 29, 72)', color: 'white' } : undefined}
-              onClick={() => handleToggleRestricted(true)}
+              style={appMode === 'v1' ? { backgroundColor: 'rgb(25,118,243)', color: 'white' } : undefined}
+              onClick={() => handleSelectMode('v1')}
             >
-              지급정지 버전
+              {appMode === 'v1' ? '버전 1 (기본 적용중)' : '버전 1'}
             </Button>
             <Button
               type="button"
-              variant={!restricted ? 'default' : 'outline'}
+              variant={appMode === 'v2' ? 'default' : 'outline'}
               className="h-10 text-xs font-semibold rounded-lg"
-              style={!restricted ? { backgroundColor: 'rgb(25,118,243)', color: 'white' } : undefined}
-              onClick={() => handleToggleRestricted(false)}
+              style={appMode === 'v2' ? { backgroundColor: 'rgb(25,118,243)', color: 'white' } : undefined}
+              onClick={() => handleSelectMode('v2')}
             >
-              지급정지X 버전 (기본)
+              {appMode === 'v2' ? '버전 2 (기본 적용중)' : '버전 2'}
             </Button>
           </div>
+          <Button
+            type="button"
+            variant={appMode === 'restricted' ? 'default' : 'outline'}
+            className="mt-2 w-full h-9 text-xs font-semibold rounded-lg"
+            style={appMode === 'restricted' ? { backgroundColor: 'rgb(225, 29, 72)', color: 'white' } : undefined}
+            onClick={() => handleSelectMode('restricted')}
+          >
+            {appMode === 'restricted' ? '지급정지 버전 (기본 적용중)' : '지급정지 버전'}
+          </Button>
           <div className="mt-1.5 text-[11px] text-text-muted text-center">
-            {restricted ? '현재: [사고신고 계좌 팝업 표출]' : '현재: [정상 이체 가능 버전]'}
+            {appMode === 'v1' && '현재 기본: [버전 1 · 7천만원 / 48시간 정지 미적용]'}
+            {appMode === 'v2' && '현재 기본: [버전 2 · 7천만원 / 48시간 고액출금정지 적용]'}
+            {appMode === 'restricted' && '현재 기본: [지급정지 버전 · 사고신고 계좌 팝업 표출]'}
           </div>
         </div>
 

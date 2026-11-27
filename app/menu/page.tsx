@@ -9,7 +9,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { RestrictedModal } from '@/components/restricted-modal';
 import { FdsWarningModal } from '@/components/fds-warning-modal';
-import { isAdminUnlocked, setAdminUnlocked, isRestrictedMode, setRestrictedMode } from '@/lib/account-data';
+import {
+  getAppMode,
+  isAdminUnlocked,
+  isFdsWarningEnabled,
+  isRestrictedMode,
+  setAdminUnlocked,
+  setAppMode,
+  type AppMode,
+} from '@/lib/account-data';
 
 type ViewState = 'idle' | 'loading' | 'error';
 
@@ -22,22 +30,24 @@ export default function MenuPage() {
   const [unlocked, setUnlocked] = useState(false);
   const [restrictedModalOpen, setRestrictedModalOpen] = useState(false);
   const [fdsModalOpen, setFdsModalOpen] = useState(false);
-  const [restrictedMode, setRestrictedModeState] = useState(false);
+  const [appMode, setAppModeState] = useState<AppMode>('v1');
 
   useEffect(() => {
-    setRestrictedModeState(isRestrictedMode());
+    setAppModeState(getAppMode());
   }, []);
 
-  function handleToggleRestrictedMode(mode: boolean) {
-    setRestrictedMode(mode);
-    setRestrictedModeState(mode);
+  function handleSelectMode(mode: AppMode) {
+    setAppMode(mode);
+    setAppModeState(mode);
   }
 
   const handleTransferClick = () => {
     if (isRestrictedMode()) {
       setRestrictedModalOpen(true);
-    } else {
+    } else if (isFdsWarningEnabled()) {
       setFdsModalOpen(true);
+    } else {
+      router.push('/transfer');
     }
   };
 
@@ -69,6 +79,7 @@ export default function MenuPage() {
   function handleOpenSettings() {
     setPassword('');
     setPasswordError(false);
+    setAppModeState(getAppMode());
     setSettingsOpen(true);
   }
 
@@ -76,7 +87,6 @@ export default function MenuPage() {
     if (password === '58326248') {
       setAdminUnlocked(true);
       setUnlocked(true);
-      setSettingsOpen(false);
       setPassword('');
       setPasswordError(false);
       return;
@@ -207,6 +217,14 @@ export default function MenuPage() {
               );
             }
 
+            if (m.id === 'settings') {
+              return (
+                <button key={m.id} type="button" onClick={handleOpenSettings} className={common}>
+                  {m.label}
+                </button>
+              );
+            }
+
             return (
               <button key={m.id} type="button" onClick={handleUnavailableClick} className={common}>
                 {m.label}
@@ -253,30 +271,41 @@ export default function MenuPage() {
 
           {unlocked ? (
             <div className="space-y-3">
-              <div className="text-sm font-semibold text-text-primary text-center">버전 / 모드 선택</div>
-              
+              <div className="text-sm font-semibold text-text-primary text-center">기본 버전 / 모드 선택</div>
+
               <div className="grid grid-cols-2 gap-2">
                 <Button
                   type="button"
-                  variant={restrictedMode ? 'default' : 'outline'}
+                  variant={appMode === 'v1' ? 'default' : 'outline'}
                   className="h-11 rounded-xl text-xs font-semibold"
-                  style={restrictedMode ? { backgroundColor: 'rgb(225, 29, 72)', color: 'rgb(255,255,255)' } : undefined}
-                  onClick={() => handleToggleRestrictedMode(true)}
+                  style={appMode === 'v1' ? { backgroundColor: 'rgb(25,118,243)', color: 'rgb(255,255,255)' } : undefined}
+                  onClick={() => handleSelectMode('v1')}
                 >
-                  지급정지 버전
+                  {appMode === 'v1' ? '버전 1 (기본 적용중)' : '버전 1'}
                 </Button>
                 <Button
                   type="button"
-                  variant={!restrictedMode ? 'default' : 'outline'}
+                  variant={appMode === 'v2' ? 'default' : 'outline'}
                   className="h-11 rounded-xl text-xs font-semibold"
-                  style={!restrictedMode ? { backgroundColor: 'rgb(25,118,243)', color: 'rgb(255,255,255)' } : undefined}
-                  onClick={() => handleToggleRestrictedMode(false)}
+                  style={appMode === 'v2' ? { backgroundColor: 'rgb(25,118,243)', color: 'rgb(255,255,255)' } : undefined}
+                  onClick={() => handleSelectMode('v2')}
                 >
-                  지급정지X 버전 (기본)
+                  {appMode === 'v2' ? '버전 2 (기본 적용중)' : '버전 2'}
                 </Button>
               </div>
+              <Button
+                type="button"
+                variant={appMode === 'restricted' ? 'default' : 'outline'}
+                className="w-full h-10 rounded-xl text-xs font-semibold"
+                style={appMode === 'restricted' ? { backgroundColor: 'rgb(225, 29, 72)', color: 'rgb(255,255,255)' } : undefined}
+                onClick={() => handleSelectMode('restricted')}
+              >
+                {appMode === 'restricted' ? '지급정지 버전 (기본 적용중)' : '지급정지 버전'}
+              </Button>
               <div className="text-xs text-text-secondary text-center">
-                {restrictedMode ? '현재: [사고신고 계좌 팝업 표출]' : '현재: [정상 이체 가능 버전]'}
+                {appMode === 'v1' && '현재 기본: [버전 1 · 7천만원 / 48시간 정지 미적용]'}
+                {appMode === 'v2' && '현재 기본: [버전 2 · 7천만원 / 48시간 고액출금정지 적용]'}
+                {appMode === 'restricted' && '현재 기본: [지급정지 버전 · 사고신고 계좌 팝업 표출]'}
               </div>
 
               <div className="pt-2 border-t border-line">
@@ -297,6 +326,11 @@ export default function MenuPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSubmitPassword();
+                  }
+                }}
                 placeholder="비밀번호 입력"
               />
               {passwordError && (
